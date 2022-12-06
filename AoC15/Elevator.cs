@@ -20,5 +20,19 @@ namespace AoC15
 
             FinalFloor = startingFloor + up - down;
         }
+
+        public int BasementEntry()
+        {
+            int currentFloor = startingFloor;
+            int pos = 0;
+            while (pos < elevatorSequence.Length)
+            {
+                currentFloor += elevatorSequence[pos] == '(' ? 1 : -1;
+                if (currentFloor < 0)
+                    break;
+                pos++;
+            }
+            return pos + 1;
+        }
     }
 }

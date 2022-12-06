@@ -9,7 +9,7 @@
             int result = -1;
 
             int day = 1;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -32,7 +32,9 @@
         int Day1(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            return new Elevator(lines[0]).FinalFloor;
+            Elevator elevator =  new(lines[0]);
+
+            return part == 1 ? elevator.FinalFloor : elevator.BasementEntry();
         }
     }
 }
