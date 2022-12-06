@@ -9,7 +9,7 @@
             int result = -1;
 
             int day = 4;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -70,7 +70,7 @@
             var lines = File.ReadLines(input).ToList();
             var miner = new AdventCoinMiner(lines[0]);
             
-            return miner.Mine();
+            return miner.Mine(part);
         }
     }
 }

@@ -14,14 +14,16 @@ namespace AoC15
             key = privateKey;
         }
 
-        public int Mine()
+        public int Mine(int part)
         {
+            string startSequence = (part == 1) ? "00000" : "000000";
+
             int i = 0;
             while(true) 
             {
                 string str = key + i.ToString();
                 var hexMD5 = CreateMD5(str);
-                if (hexMD5.StartsWith("00000"))
+                if (hexMD5.StartsWith(startSequence))
                     break;
                 i++;
             }
