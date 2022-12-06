@@ -26,6 +26,10 @@
                     result = _instance.Day2(input, part);
                     Console.WriteLine("Result : {0}", result);
                     break;
+                case 3:
+                    result = _instance.Day3(input, part);
+                    Console.WriteLine("Result : {0}", result);
+                    break;
                 default:
                     break;
             }
@@ -47,8 +51,13 @@
             var boxes = lines.Select(x => new PresentBox(x)).ToList();
 
             return part == 1 ? boxes.Sum(x => x.WrapArea) : boxes.Sum(x => x.RibbonLength);
-            
-            
+        }
+
+        int Day3(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+
+            return 0;
         }
     }
 }
