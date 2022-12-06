@@ -22,6 +22,10 @@
                     result = _instance.Day1(input, part);
                     Console.WriteLine("Result : {0}", result);
                     break;
+                case 2:
+                    result = _instance.Day2(input, part);
+                    Console.WriteLine("Result : {0}", result);
+                    break;
                 default:
                     break;
             }
@@ -35,6 +39,14 @@
             Elevator elevator =  new(lines[0]);
 
             return part == 1 ? elevator.FinalFloor : elevator.BasementEntry();
+        }
+
+        int Day2(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            
+
+            return 0;
         }
     }
 }
