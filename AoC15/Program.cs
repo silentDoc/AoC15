@@ -8,8 +8,8 @@
             string input = "";
             int result = -1;
 
-            int day = 3;
-            int part = 2;
+            int day = 4;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -68,8 +68,9 @@
         int Day4(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-
-            return 0;
+            var miner = new AdventCoinMiner(lines[0]);
+            
+            return miner.Mine();
         }
     }
 }
