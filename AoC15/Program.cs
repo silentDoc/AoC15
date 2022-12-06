@@ -34,6 +34,10 @@
                     result = _instance.Day4(input, part);
                     Console.WriteLine("Result : {0}", result);
                     break;
+                case 5:
+                    result = _instance.Day5(input, part);
+                    Console.WriteLine("Result : {0}", result);
+                    break;
                 default:
                     break;
             }
@@ -71,6 +75,12 @@
             var miner = new AdventCoinMiner(lines[0]);
             
             return miner.Mine(part);
+        }
+
+        int Day5(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            return 0;
         }
     }
 }
