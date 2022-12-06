@@ -30,6 +30,10 @@
                     result = _instance.Day3(input, part);
                     Console.WriteLine("Result : {0}", result);
                     break;
+                case 4:
+                    result = _instance.Day4(input, part);
+                    Console.WriteLine("Result : {0}", result);
+                    break;
                 default:
                     break;
             }
@@ -59,6 +63,13 @@
             var routes = lines.Select(x => new PresentRoute(x, part)).ToList();
 
             return routes.Sum(x=>x.VisitedHouses);
+        }
+
+        int Day4(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+
+            return 0;
         }
     }
 }
