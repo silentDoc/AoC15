@@ -42,10 +42,15 @@ namespace AoC15
         List<HousePosition> visitedPositions;
         public int VisitedHouses;
 
-        public PresentRoute(string route)
+        public PresentRoute(string route, int part)
         {
             visitedPositions = new();
-            followRoute(route);
+
+            if (part == 1)
+                followRoute(route);
+            else
+                followRouteRoboSanta(route);
+
             VisitedHouses = visitedPositions.Distinct(new HousePositionComparer()).Count();
         }
 
@@ -60,6 +65,30 @@ namespace AoC15
                 char move = route[i];
                 currentPosition = Move(move, currentPosition);
                 visitedPositions.Add(currentPosition);
+            }
+        }
+
+        void followRouteRoboSanta(string route)
+        {
+            var santaPosition = new HousePosition() { x = 0, y = 0 };
+            var roboSantaPosition = new HousePosition() { x = 0, y = 0 };
+
+            visitedPositions.Add(santaPosition);
+            visitedPositions.Add(roboSantaPosition);
+
+            for (int i = 0; i < route.Length; i++)
+            {
+                char move = route[i];
+                if (i % 2 == 0)
+                {
+                    santaPosition = Move(move, santaPosition);
+                    visitedPositions.Add(santaPosition);
+                }
+                else
+                {
+                    roboSantaPosition = Move(move, roboSantaPosition);
+                    visitedPositions.Add(roboSantaPosition);
+                }
             }
         }
 

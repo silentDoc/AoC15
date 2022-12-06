@@ -9,7 +9,7 @@
             int result = -1;
 
             int day = 3;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -56,7 +56,7 @@
         int Day3(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            var routes = lines.Select(x => new PresentRoute(x)).ToList();
+            var routes = lines.Select(x => new PresentRoute(x, part)).ToList();
 
             return routes.Sum(x=>x.VisitedHouses);
         }
