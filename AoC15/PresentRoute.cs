@@ -21,13 +21,12 @@ namespace AoC15
 
     internal class HousePositionComparer : IEqualityComparer<HousePosition>
     { 
-        public bool Equals(HousePosition a, HousePosition b) 
+        public bool Equals(HousePosition? a, HousePosition? b) 
         {
-            if ((a == null) && (b != null)) 
+            if (a is not null && b is not null)
+                return (a.x == b.x) && (a.y == b.y);
+            else
                 return false;
-            if ((b == null) && (a != null))
-                return false;
-            return (a.x == b.x) && (a.y == b.y);
         }
 
         public int GetHashCode(HousePosition obj) 
