@@ -8,8 +8,8 @@
             string input = "";
             int result = -1;
 
-            int day = 1;
-            int part = 2;
+            int day = 2;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -44,9 +44,9 @@
         int Day2(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
+            var boxes = lines.Select(x => new PresentBox(x)).ToList();
+            return boxes.Sum(x => x.WrapArea);
             
-
-            return 0;
         }
     }
 }
