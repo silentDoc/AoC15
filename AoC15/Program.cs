@@ -32,8 +32,7 @@
         int Day1(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-
-            return 0;
+            return new Elevator(lines[0]).FinalFloor;
         }
     }
 }
