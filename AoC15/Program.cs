@@ -9,7 +9,7 @@
             int result = -1;
 
             int day = 2;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -45,7 +45,9 @@
         {
             var lines = File.ReadLines(input).ToList();
             var boxes = lines.Select(x => new PresentBox(x)).ToList();
-            return boxes.Sum(x => x.WrapArea);
+
+            return part == 1 ? boxes.Sum(x => x.WrapArea) : boxes.Sum(x => x.RibbonLength);
+            
             
         }
     }

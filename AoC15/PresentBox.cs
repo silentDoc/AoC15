@@ -14,6 +14,7 @@ namespace AoC15
         int height;
         
         public int WrapArea = -1;
+        public int RibbonLength = -1;
 
         public PresentBox(string dimensions)
         {
@@ -25,12 +26,16 @@ namespace AoC15
             width  = dims[1];
             height = dims[2];
 
-            var smallerSide = dims.OrderBy(x => x).Take(2).ToList();
+            var smallerSides = dims.OrderBy(x => x).Take(2).ToList();
 
             WrapArea = 2 * length * width 
                        + 2 * width * height 
                        + 2 * height * length 
-                       + (smallerSide[0] * smallerSide[1]);
+                       + (smallerSides[0] * smallerSides[1]);
+
+            RibbonLength = smallerSides[0] * 2 
+                           + smallerSides[1] * 2 
+                           + length * width * height;
         }
     }
 }
