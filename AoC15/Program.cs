@@ -8,8 +8,8 @@
             string input = "";
             int result = -1;
 
-            int day = 4;
-            int part = 2;
+            int day = 5;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -80,7 +80,8 @@
         int Day5(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            return 0;
+            var niceLines = lines.Select(x => new StringChecker(x).IsNice).ToList();
+            return niceLines.Where(x => x == true).Count();
         }
     }
 }
