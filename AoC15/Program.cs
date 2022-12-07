@@ -1,4 +1,6 @@
-﻿namespace AoC15
+﻿using System.Runtime.CompilerServices;
+
+namespace AoC15
 {
     internal class Program
     {
@@ -10,7 +12,7 @@
 
             int day = 6;
             int part = 1;
-            bool test = true;
+            bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
             input += (test) ? "_test.txt" : ".txt";
@@ -92,8 +94,12 @@
         int Day6(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            
-            return 0;
+            LightManager lightManager = new();
+
+            foreach (var line in lines)
+                lightManager.DoInstruction(line);
+
+            return lightManager.CountLights();
         }
     }
 }
