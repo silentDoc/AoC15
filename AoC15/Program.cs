@@ -11,7 +11,7 @@ namespace AoC15
             int result = -1;
 
             int day = 6;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -94,7 +94,7 @@ namespace AoC15
         int Day6(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            LightManager lightManager = new();
+            LightManager lightManager = new(part);
 
             foreach (var line in lines)
                 lightManager.DoInstruction(line);

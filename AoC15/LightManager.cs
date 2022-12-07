@@ -11,9 +11,12 @@ namespace AoC15
     {
         // Using jagged arrays instead of multidimensionals to use Linq and fp
         int[][] panel = null;
+        int part = 1;
 
-        public LightManager()
+        public LightManager(int part)
         {
+            this.part = part;
+
             panel = new int[1000][];
             for (int i = 0; i < 1000; panel[i++] = new int[1000]) ;
             
@@ -50,27 +53,42 @@ namespace AoC15
         void TurnOn(string range)
         {
             var pos = GetPositions(range);
-
-            for (var i = pos[0]; i <= pos[2]; i++)
-                for (var j = pos[1]; j <= pos[3]; j++)
-                    panel[i][j] = 1;
+            if(part==1)
+                for (var i = pos[0]; i <= pos[2]; i++)
+                    for (var j = pos[1]; j <= pos[3]; j++)
+                        panel[i][j] = 1;
+            else
+                for (var i = pos[0]; i <= pos[2]; i++)
+                    for (var j = pos[1]; j <= pos[3]; j++)
+                        panel[i][j]++;
         }
 
         void TurnOff(string range)
         {
             var pos = GetPositions(range);
+            if (part == 1)
+                for (var i = pos[0]; i <= pos[2]; i++)
+                    for (var j = pos[1]; j <= pos[3]; j++)
+                        panel[i][j] = 0;
+            else
+                for (var i = pos[0]; i <= pos[2]; i++)
+                    for (var j = pos[1]; j <= pos[3]; j++)
+                    {
+                        panel[i][j]-= (panel[i][j]>0)?1:0;
+                    }
 
-            for (var i = pos[0]; i <= pos[2]; i++)
-                for (var j = pos[1]; j <= pos[3]; j++)
-                    panel[i][j] = 0;
         }
         void Toggle(string range)
         {
             var pos = GetPositions(range);
-
-            for (var i = pos[0]; i <= pos[2]; i++)
-                for (var j = pos[1]; j <= pos[3]; j++)
-                    panel[i][j] = (panel[i][j]==0)?1:0;
+            if (part == 1)
+                for (var i = pos[0]; i <= pos[2]; i++)
+                    for (var j = pos[1]; j <= pos[3]; j++)
+                        panel[i][j] = (panel[i][j] == 0) ? 1 : 0;
+            else
+                for (var i = pos[0]; i <= pos[2]; i++)
+                    for (var j = pos[1]; j <= pos[3]; j++)
+                        panel[i][j] += 2;
         }
 
         int[] GetPositions(string range)
