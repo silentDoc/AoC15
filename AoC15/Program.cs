@@ -46,6 +46,10 @@ namespace AoC15
                     result = _instance.Day6(input, part);
                     Console.WriteLine("Result : {0}", result);
                     break;
+                case 7:
+                    result = _instance.Day7(input, part);
+                    Console.WriteLine("Result : {0}", result);
+                    break;
                 default:
                     break;
             }
@@ -91,6 +95,7 @@ namespace AoC15
             var niceLines = lines.Select(x => new StringChecker(x, part).IsNice).ToList();
             return niceLines.Where(x => x == true).Count();
         }
+
         int Day6(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
@@ -100,6 +105,13 @@ namespace AoC15
                 lightManager.DoInstruction(line);
 
             return lightManager.CountLights();
+        }
+
+        int Day7(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            
+            return 0;
         }
     }
 }
