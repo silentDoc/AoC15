@@ -8,9 +8,9 @@
             string input = "";
             int result = -1;
 
-            int day = 5;
-            int part = 2;
-            bool test = false;
+            int day = 6;
+            int part = 1;
+            bool test = true;
 
             input = "./Input/day" + day.ToString() + "_1";
             input += (test) ? "_test.txt" : ".txt";
@@ -38,6 +38,10 @@
                     if (part == 2 && test)
                         input = "./Input/day5_2_test.txt";
                     result = _instance.Day5(input, part);
+                    Console.WriteLine("Result : {0}", result);
+                    break;
+                case 6:
+                    result = _instance.Day6(input, part);
                     Console.WriteLine("Result : {0}", result);
                     break;
                 default:
@@ -84,6 +88,12 @@
             var lines = File.ReadLines(input).ToList();
             var niceLines = lines.Select(x => new StringChecker(x, part).IsNice).ToList();
             return niceLines.Where(x => x == true).Count();
+        }
+        int Day6(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            
+            return 0;
         }
     }
 }
