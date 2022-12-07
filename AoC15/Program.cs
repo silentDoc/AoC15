@@ -9,7 +9,7 @@
             int result = -1;
 
             int day = 5;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -35,6 +35,8 @@
                     Console.WriteLine("Result : {0}", result);
                     break;
                 case 5:
+                    if (part == 2 && test)
+                        input = "./Input/day5_2_test.txt";
                     result = _instance.Day5(input, part);
                     Console.WriteLine("Result : {0}", result);
                     break;
@@ -80,7 +82,7 @@
         int Day5(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            var niceLines = lines.Select(x => new StringChecker(x).IsNice).ToList();
+            var niceLines = lines.Select(x => new StringChecker(x, part).IsNice).ToList();
             return niceLines.Where(x => x == true).Count();
         }
     }

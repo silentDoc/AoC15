@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AoC15
@@ -11,13 +12,12 @@ namespace AoC15
         string Str;
         public bool IsNice = false;
 
-        public StringChecker(string str) 
+        public StringChecker(string str, int part) 
         {
             Str = str;
-            bool vowels = AtLeast3Vowels();
-            bool digits = DoubleDigits();
-            bool substr = WithoutSubstrings();
-            IsNice = AtLeast3Vowels() && DoubleDigits() && WithoutSubstrings();
+            IsNice = (part ==1) 
+                     ? AtLeast3Vowels() && DoubleDigits() && WithoutSubstrings()
+                     : TwoLettersAtLeastTwice() && OneLetterBetweenRepeat();
         }
 
         bool AtLeast3Vowels()
@@ -38,6 +38,38 @@ namespace AoC15
                     && (Str.IndexOf("cd") == -1)
                     && (Str.IndexOf("pq") == -1)
                     && (Str.IndexOf("xy") == -1);
+        }
+
+        bool TwoLettersAtLeastTwice()
+        {
+            bool repeatsTwice = false;
+            bool overlap = false;
+
+            for (int i = 0; i < Str.Length - 1; i++)
+            {
+                var substring = Str.Substring(i, 2);
+                Regex r = new(substring);
+                var matches = r.Matches(Str).ToList();
+                
+                if(matches.Count()>1)
+                    repeatsTwice = true;
+
+                var indices = matches.Select(x => x.Index).OrderBy(x => x).ToList();
+                
+                for(int j = 1; j<indices.Count; j++)
+                    if (indices[j] - indices[j-1] == 1)
+                        overlap = true;
+            }
+
+            return !overlap && repeatsTwice;
+        }
+
+        bool OneLetterBetweenRepeat()
+        {
+            for (int i = 0; i < Str.Length - 2; i++)
+                if (Str[i] == Str[i + 2])
+                    return true;
+            return false;
         }
     }
 }
