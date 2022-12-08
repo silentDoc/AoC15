@@ -50,6 +50,16 @@ namespace AoC15
             shiftParameter = value;
         }
 
+        public void Update(WireOperations howToSolve, ushort value, string nodeA, string nodeB)
+        {
+            this.howToSolve = howToSolve;
+            hasValue = (howToSolve == WireOperations.assign);
+            this.value = value;
+            this.nodeA = nodeA;
+            this.nodeB = nodeB;
+            shiftParameter = value;
+        }
+
         public ushort GetValue(List<wire> wires)
         {
             if (hasValue)
@@ -151,6 +161,13 @@ namespace AoC15
                         : throw new ArgumentException("Can't find wire : " + wireName);
             
             return result;
+        }
+
+        public void OverrideWire(string name, WireOperations operation, ushort value, 
+                                 string nodeA, string nodeB)
+        {
+            var wire = getWire(name);
+            wire.Update(operation, value, nodeA, nodeB);
         }
 
     }

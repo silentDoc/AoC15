@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Copied with pride from  https://markheath.net/post/advent-of-code-day7 - so all kudos to Mark Heath
+// I liked this approach a lot, so I took this to study and improve. 
+// The approach is the same I came with, but much more elegant and taking more advantage of c# funcs
+
 namespace AoC15
 {
     internal class CircuitManagerFunctional
@@ -14,7 +18,7 @@ namespace AoC15
         {
         }
 
-        public void LoadInstructions(List<string> input)
+        public void BuildCircuit(List<string> input)
         {
             instructions = input.Select(x => x.Split(" ")).ToDictionary(x => x.Last());
         }
@@ -24,7 +28,6 @@ namespace AoC15
             // Tiny func that will tell us if we have a value or look recurively until we can solve the value
             Func<string, ushort> eval = x =>
                     Char.IsLetter(x[0]) ? GetWireValue(x) : ushort.Parse(x);
-
 
             Func<string[], ushort> assign = x => eval(x[0]);
             Func<string[], ushort> and = x => (ushort)(eval(x[0]) & eval(x[2]));

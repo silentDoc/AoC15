@@ -14,7 +14,7 @@ namespace AoC15
             int result = -1;
 
             int day = 7;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -116,15 +116,18 @@ namespace AoC15
 
             CircuitManager cm = new(part);
             cm.BuildCircuit(lines);
-            var value = cm.GetWireValue("a");
+            
+            if(part ==1) 
+                return cm.GetWireValue("a");
 
-            // Functional 
+            // Functional version for part 2
             CircuitManagerFunctional cmf= new();
             cmf.BuildCircuit(lines);
-            cmf.GetWireValue("a");
+            var signal = cmf.GetWireValue("a");
             
-
-            return value;
+            
+            cm.OverrideWire("b", WireOperations.assign, signal, "", "");
+            return cm.GetWireValue("a");
         }
     }
 }
