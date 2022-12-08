@@ -114,9 +114,15 @@ namespace AoC15
         {
             var lines = File.ReadLines(input).ToList();
 
-            CircuitManager circuitManager = new(part);
-            circuitManager.BuildCircuit(lines);
-            var value = circuitManager.GetWireValue("a");
+            CircuitManager cm = new(part);
+            cm.BuildCircuit(lines);
+            var value = cm.GetWireValue("a");
+
+            // Functional 
+            CircuitManagerFunctional cmf= new();
+            cmf.BuildCircuit(lines);
+            cmf.GetWireValue("a");
+            
 
             return value;
         }
