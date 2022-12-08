@@ -14,7 +14,7 @@ namespace AoC15
             int result = -1;
 
             int day = 8;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -112,7 +112,8 @@ namespace AoC15
         {
             var lines = File.ReadLines(input).ToList();
             StringMemory stringMemo = new();
-            int value = stringMemo.Process(lines);
+            int value = (part == 1) ? stringMemo.Process(lines)
+                                    : stringMemo.ProcessPart2(lines);
 
             return value;
         }
