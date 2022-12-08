@@ -13,9 +13,9 @@ namespace AoC15
             string input = "";
             int result = -1;
 
-            int day = 7;
-            int part = 2;
-            bool test = false;
+            int day = 8;
+            int part = 1;
+            bool test = true;
 
             input = "./Input/day" + day.ToString() + "_1";
             input += (test) ? "_test.txt" : ".txt";
@@ -31,6 +31,7 @@ namespace AoC15
                 5 => _instance.Day5((part == 2 && test) ? "./Input/day5_2_test.txt" : input, part),
                 6 => _instance.Day6(input, part),
                 7 => _instance.Day7(input, part),
+                8 => _instance.Day8(input, part),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -105,6 +106,12 @@ namespace AoC15
             
             cm.OverrideWire("b", WireOperations.assign, signal, "", "");
             return cm.GetWireValue("a");
+        }
+
+        int Day8(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            return 0;
         }
     }
 }

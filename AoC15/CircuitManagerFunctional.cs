@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 // Copied with pride from  https://markheath.net/post/advent-of-code-day7 - so all kudos to Mark Heath
 // I liked this approach a lot, so I took this to study and improve. 
-// The approach is the same I came with, but much more elegant and taking more advantage of c# funcs
+// The approach is the same I came up with, but much more elegantly implemented and taking
+// more advantage of c# funcs
 
 namespace AoC15
 {
