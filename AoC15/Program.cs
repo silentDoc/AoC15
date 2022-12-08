@@ -113,7 +113,8 @@ namespace AoC15
             var lines = File.ReadLines(input).ToList();
             StringMemory stringMemo = new();
             int value = (part == 1) ? stringMemo.Process(lines)
-                                    : stringMemo.ProcessPart2(lines);
+                                    : stringMemo.ProcessP2(lines);
+
 
             return value;
         }
