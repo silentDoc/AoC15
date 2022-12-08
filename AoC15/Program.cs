@@ -1,4 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 namespace AoC15
 {
@@ -10,8 +13,8 @@ namespace AoC15
             string input = "";
             int result = -1;
 
-            int day = 6;
-            int part = 2;
+            int day = 7;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -110,8 +113,12 @@ namespace AoC15
         int Day7(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            
-            return 0;
+
+            CircuitManager circuitManager = new(part);
+            circuitManager.BuildCircuit(lines);
+            var value = circuitManager.GetWireValue("a");
+
+            return value;
         }
     }
 }
