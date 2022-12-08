@@ -21,42 +21,19 @@ namespace AoC15
             input += (test) ? "_test.txt" : ".txt";
 
             Console.WriteLine("AoC 2015 - Day {0} , Part {1} - Test Data {2}", day, part, test);
-            switch (day)
+
+            result = day switch
             {
-                case 1:
-                    result = _instance.Day1(input, part);
-                    Console.WriteLine("Result : {0}", result);
-                    break;
-                case 2:
-                    result = _instance.Day2(input, part);
-                    Console.WriteLine("Result : {0}", result);
-                    break;
-                case 3:
-                    result = _instance.Day3(input, part);
-                    Console.WriteLine("Result : {0}", result);
-                    break;
-                case 4:
-                    result = _instance.Day4(input, part);
-                    Console.WriteLine("Result : {0}", result);
-                    break;
-                case 5:
-                    if (part == 2 && test)
-                        input = "./Input/day5_2_test.txt";
-                    result = _instance.Day5(input, part);
-                    Console.WriteLine("Result : {0}", result);
-                    break;
-                case 6:
-                    result = _instance.Day6(input, part);
-                    Console.WriteLine("Result : {0}", result);
-                    break;
-                case 7:
-                    result = _instance.Day7(input, part);
-                    Console.WriteLine("Result : {0}", result);
-                    break;
-                default:
-                    break;
-            }
-            Console.WriteLine("Key to exit");
+                1 => _instance.Day1(input, part),
+                2 => _instance.Day2(input, part),
+                3 => _instance.Day3(input, part),
+                4 => _instance.Day4(input, part),
+                5 => _instance.Day5((part == 2 && test) ? "./Input/day5_2_test.txt" : input, part),
+                6 => _instance.Day6(input, part),
+                7 => _instance.Day7(input, part),
+                _ => throw new ArgumentException("Wrong day number - unimplemented"),
+            };
+            Console.WriteLine("Result : {0}", result);
             Console.ReadLine();
         }
 
