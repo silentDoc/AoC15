@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AoC15
 {
@@ -103,131 +104,41 @@ namespace AoC15
 
         void ParseInstruction(string line)
         {
-            // Ugly as it gets - first thing to refactor
-            Regex regex_Assign = new(@"^[0-9]+ -> \b[a-zA-Z]{1,2}\b");
-            Regex regex_Bypass = new(@"^\b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b");
-            Regex regex_Not = new(@"^NOT \b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b");
-            Regex regex_And = new(@"^\b[a-zA-Z]{1,2}\b AND \b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b");
-            Regex regex_NumericAnd = new(@"^[0-9]+ AND \b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b");
-            Regex regex_Or = new(@"^\b[a-zA-Z]{1,2}\b OR \b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b");
-            Regex regex_Rshift = new(@"^\b[a-zA-Z]{1,2}\b RSHIFT \b[0-9]{1,2}\b -> \b[a-zA-Z]{1,2}\b");
-            Regex regex_Lshift = new(@"^\b[a-zA-Z]{1,2}\b LSHIFT \b[0-9]{1,2}\b -> \b[a-zA-Z]{1,2}\b");
+            var parts = line.Split(" -> ");
+            var wire = parts.Last();
+            var command = parts[0];
+            var factors = parts[0].Split(" ");
 
-            if (regex_Not.IsMatch(line))
-                ProcessNot(line);
-            else if (regex_And.IsMatch(line))
-                ProcessAnd(line);
-            else if (regex_NumericAnd.IsMatch(line))
-                ProcessNumericAnd(line);
-            else if (regex_Or.IsMatch(line))
-                ProcessOr(line);
-            else if (regex_Rshift.IsMatch(line))
-                ProcessRShift(line);
-            else if (regex_Lshift.IsMatch(line))
-                ProcessLShift(line);
-            else if (regex_Assign.IsMatch(line))
-                ProcessAssign(line);
-            else if (regex_Bypass.IsMatch(line))
-                ProcessBypass(line);
-            else
-                throw new ArgumentException("Can't parse line : " + line);
-        }
+            var regex_assign = new Regex(@"^(\w+)");
+            var regex_not = new Regex(@"^NOT (\w+)");
+            var regex_3factor = new Regex(@"^(\w+) (AND|OR|LSHIFT|RSHIFT) (\w+)"); 
 
-        void ProcessAssign(string line)
-        {
-            // @"[0-9]+ -> \b[a-zA-Z]{1,2}\b
-            var elements = line.Replace(" -> ", " ").Split(" ");
-            var value = ushort.Parse(elements[0]);
-            var name = elements[1];
+           
+            if (regex_not.IsMatch(command))
+                wires.Add(new wire(wire, WireOperations.not, 0, factors[1], ""));
+            else if (regex_3factor.IsMatch(command))
+            {
+                if (factors[1] == "AND")
+                    if (char.IsDigit(factors[0][0]))
+                        wires.Add(new wire(wire, WireOperations.numeric_and, ushort.Parse(factors[0]), factors[2], ""));
+                    else
+                        wires.Add(new wire(wire, WireOperations.and, 0, factors[0], factors[2]));
 
-            wires.Add(new wire(name, WireOperations.assign, value, "", ""));
-        }
+                if (factors[1] == "OR")
+                        wires.Add(new wire(wire, WireOperations.or, 0, factors[0], factors[2]));
 
-        void ProcessBypass(string line)
-        {
-            // @"[0-9]+ -> \b[a-zA-Z]{1,2}\b
-            var elements = line.Replace(" -> ", " ").Split(" ");
-            var nodeA = elements[0];
-            var name = elements[1];
+                if (factors[1] == "LSHIFT")
+                    wires.Add(new wire(wire, WireOperations.lshift, ushort.Parse(factors[2]), factors[0], ""));
 
-            wires.Add(new wire(name, WireOperations.bypass, 0, nodeA, ""));
-        }
+                if (factors[1] == "RSHIFT")
+                    wires.Add(new wire(wire, WireOperations.rshift, ushort.Parse(factors[2]), factors[0], ""));
+            }
+            else if (regex_assign.IsMatch(command))
+                if (char.IsDigit(factors[0][0]))
+                    wires.Add(new wire(wire, WireOperations.assign, ushort.Parse(factors[0]), "", ""));
+                else
+                    wires.Add(new wire(wire, WireOperations.bypass, 0, factors[0], ""));
 
-        void ProcessNot(string line)
-        {
-            // @"NOT \b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b"
-            var str = line.Replace("NOT ", "");
-            var elements = str.Replace(" -> ", " ").Split(" ");
-            var wireA = elements[0];
-            var name = elements[1];
-
-            wires.Add(new wire(name, WireOperations.not, 0, wireA, ""));
-            return;
-        }
-
-        void ProcessAnd(string line)
-        {
-            //@"\b[a-zA-Z]{1,2}\b AND \b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b"
-            var str = line.Replace(" AND ", " ");
-            var elements = str.Replace(" -> ", " ").Split(" ");
-            var wireA = elements[0];
-            var wireB = elements[1];
-            var name = elements[2];
-
-            wires.Add(new wire(name, WireOperations.and, 0, wireA, wireB));
-            return;
-        }
-
-        void ProcessNumericAnd(string line)
-        {
-            //@"[0-9]+ AND \b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b"
-            var str = line.Replace(" AND ", " ");
-            var elements = str.Replace(" -> ", " ").Split(" ");
-            var value = ushort.Parse(elements[0]);
-            var wireA = elements[1];
-            var name = elements[2];
-
-            wires.Add(new wire(name, WireOperations.numeric_and, value, wireA, ""));
-            return;
-        }
-
-        void ProcessOr(string line)
-        {
-            // @"\b[a-zA-Z]{1,2}\b OR \b[a-zA-Z]{1,2}\b -> \b[a-zA-Z]{1,2}\b"
-            var str = line.Replace(" OR ", " ");
-            var elements = str.Replace(" -> ", " ").Split(" ");
-            var wireA = elements[0];
-            var wireB = elements[1];
-            var name = elements[2];
-
-            wires.Add(new wire(name, WireOperations.or, 0, wireA, wireB));
-            return;
-        }
-
-        void ProcessRShift(string line)
-        {
-            // @"\b[a-zA-Z]{1,2}\b RSHIFT \b[0-9]{1,2}\b -> \b[a-zA-Z]{1,2}\b"
-            var str = line.Replace(" RSHIFT ", " ");
-            var elements = str.Replace(" -> ", " ").Split(" ");
-            var wireA = elements[0];
-            var value = ushort.Parse(elements[1]);
-            var name = elements[2];
-
-            wires.Add(new wire(name, WireOperations.rshift, value, wireA, ""));
-            return;
-        }
-
-        void ProcessLShift(string line)
-        {
-            // @"\b[a-zA-Z]{1,2}\b LSHIFT \b[0-9]{1,2}\b -> \b[a-zA-Z]{1,2}\b"
-            var str = line.Replace(" LSHIFT ", " ");
-            var elements = str.Replace(" -> ", " ").Split(" ");
-            var wireA = elements[0];
-            var value = ushort.Parse(elements[1]);
-            var name = elements[2];
-
-            wires.Add(new wire(name, WireOperations.lshift, value, wireA, ""));
-            return;
         }
 
         public ushort GetWireValue(string wireName)
