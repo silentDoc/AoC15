@@ -14,7 +14,7 @@ namespace AoC15
             string result = "";
 
             int day = 11;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -142,7 +142,9 @@ namespace AoC15
         {
             var lines = File.ReadLines(input).ToList();
             PasswordGenerator pg = new();
-            return pg.FindNextPass(lines[0]);
+            var firstPass = pg.FindNextPass(lines[0]);
+            return (part == 1) ? firstPass
+                               : pg.FindNextPass(firstPass);
         }
     }
 }
