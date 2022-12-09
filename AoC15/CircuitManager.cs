@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace AoC15
+namespace AoC15.Day7
 {
     enum WireOperations
     { 
@@ -167,6 +167,8 @@ namespace AoC15
                                  string nodeA, string nodeB)
         {
             var wire = getWire(name);
+            if(wire==null)
+                throw new ArgumentException("Can't find wire " + name);
             wire.Update(operation, value, nodeA, nodeB);
         }
 

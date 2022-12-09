@@ -46,7 +46,7 @@ namespace AoC15
         int Day1(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            Elevator elevator =  new(lines[0]);
+            Day1.Elevator elevator =  new(lines[0]);
 
             return part == 1 ? elevator.FinalFloor : elevator.BasementEntry();
         }
@@ -54,7 +54,7 @@ namespace AoC15
         int Day2(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            var boxes = lines.Select(x => new PresentBox(x)).ToList();
+            var boxes = lines.Select(x => new Day2.PresentBox(x)).ToList();
 
             return part == 1 ? boxes.Sum(x => x.WrapArea) : boxes.Sum(x => x.RibbonLength);
         }
@@ -62,7 +62,7 @@ namespace AoC15
         int Day3(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            var routes = lines.Select(x => new PresentRoute(x, part)).ToList();
+            var routes = lines.Select(x => new Day3.PresentRoute(x, part)).ToList();
 
             return routes.Sum(x=>x.VisitedHouses);
         }
@@ -70,7 +70,7 @@ namespace AoC15
         int Day4(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            var miner = new AdventCoinMiner(lines[0]);
+            var miner = new Day4.AdventCoinMiner(lines[0]);
             
             return miner.Mine(part);
         }
@@ -78,14 +78,14 @@ namespace AoC15
         int Day5(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            var niceLines = lines.Select(x => new StringChecker(x, part).IsNice).ToList();
+            var niceLines = lines.Select(x => new Day5.StringChecker(x, part).IsNice).ToList();
             return niceLines.Where(x => x == true).Count();
         }
 
         int Day6(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            LightManager lightManager = new(part);
+            Day6.LightManager lightManager = new(part);
 
             foreach (var line in lines)
                 lightManager.DoInstruction(line);
@@ -97,26 +97,26 @@ namespace AoC15
         {
             var lines = File.ReadLines(input).ToList();
 
-            CircuitManager cm = new(part);
+            Day7.CircuitManager cm = new(part);
             cm.BuildCircuit(lines);
             
             if(part ==1) 
                 return cm.GetWireValue("a");
 
             // Functional version for part 2
-            CircuitManagerFunctional cmf= new();
+            Day7.CircuitManagerFunctional cmf= new();
             cmf.BuildCircuit(lines);
             var signal = cmf.GetWireValue("a");
             
             
-            cm.OverrideWire("b", WireOperations.assign, signal, "", "");
+            cm.OverrideWire("b", AoC15.Day7.WireOperations.assign, signal, "", "");
             return cm.GetWireValue("a");
         }
 
         int Day8(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            StringMemory stringMemo = new();
+            Day8.StringMemory stringMemo = new();
             int value = (part == 1) ? stringMemo.Process(lines)
                                     : stringMemo.ProcessP2(lines);
             return value;
@@ -125,7 +125,7 @@ namespace AoC15
         int Day9(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            var tp = new TripPlanner(lines);
+            var tp = new Day9.TripPlanner(lines);
 
             return tp.GetRoute(part);
         }
@@ -133,7 +133,7 @@ namespace AoC15
         int Day10(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            var lookAndSay = new LookAndSay();
+            var lookAndSay = new Day10.LookAndSay();
 
 
             return (part == 1) ? lookAndSay.PlayTimes(lines[0],40)
@@ -143,7 +143,7 @@ namespace AoC15
         string Day11(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            PasswordGenerator pg = new();
+            Day11.PasswordGenerator pg = new();
             var firstPass = pg.FindNextPass(lines[0]);
             return (part == 1) ? firstPass
                                : pg.FindNextPass(firstPass);
@@ -152,10 +152,10 @@ namespace AoC15
         int Day12(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            JSONHelper jh = new JSONHelper();
-            //return jh.GetSum(lines[0]);
+            Day12.JSONHelper jh = new();
+
+            //return jh.GetSum(lines[0]);   // Part 1
             return jh.GetSumJson(lines[0], part);
-            
         }
 
         int Day13(string input, int part)

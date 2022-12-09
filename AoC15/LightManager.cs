@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AoC15
+namespace AoC15.Day6
 {
     internal class LightManager
     {
         // Using jagged arrays instead of multidimensionals to use Linq and fp
-        int[][] panel = null;
+        int[][] panel;
         int part = 1;
 
         public LightManager(int part)

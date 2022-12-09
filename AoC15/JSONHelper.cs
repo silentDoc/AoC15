@@ -10,7 +10,7 @@ using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace AoC15
+namespace AoC15.Day12
 {
     internal class JSONHelper
     {

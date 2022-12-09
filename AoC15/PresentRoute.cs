@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AoC15
+namespace AoC15.Day3
 {
     // This exercise was funny because I got to know how broken struct/object comparison is implemented
     // When using functions like "Distinct" on custom structs or object, C# compares different objects using 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 // The approach is the same I came up with, but much more elegantly implemented and taking
 // more advantage of c# funcs
 
-namespace AoC15
+namespace AoC15.Day7
 {
     internal class CircuitManagerFunctional
     {

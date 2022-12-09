@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AoC15
+namespace AoC15.Day5
 {
     internal class StringChecker
     {

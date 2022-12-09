@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AoC15
+namespace AoC15.Day10
 {
     internal class LookAndSay
     {

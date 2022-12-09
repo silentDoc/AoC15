@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AoC15
+namespace AoC15.Day4
 {
     internal class AdventCoinMiner
     {
