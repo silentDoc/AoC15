@@ -37,6 +37,7 @@ namespace AoC15
                 11 => _instance.Day11(input, part).ToString(),
                 12 => _instance.Day12(input, part).ToString(),
                 13 => _instance.Day13(input, part).ToString(),
+                14 => _instance.Day14(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -166,5 +167,11 @@ namespace AoC15
                 dt.AddMyself();
             return dt.GetHappiness(part);
         }
+        int Day14(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            return 0;
+        }
+
     }
 }
