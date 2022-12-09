@@ -132,7 +132,9 @@ namespace AoC15
             var lines = File.ReadLines(input).ToList();
             var lookAndSay = new LookAndSay();
 
-            return lookAndSay.PlayTimes(lines[0],40);
+
+            return (part == 1) ? lookAndSay.PlayTimes(lines[0],40)
+                               : lookAndSay.PlayTimes(lines[0],50);
         }
     }
 }
