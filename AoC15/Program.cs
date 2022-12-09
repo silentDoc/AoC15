@@ -13,8 +13,8 @@ namespace AoC15
             string input = "";
             int result = -1;
 
-            int day = 8;
-            int part = 2;
+            int day = 9;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -121,7 +121,9 @@ namespace AoC15
         int Day9(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            return 0;
+            var tp = new TripPlanner(lines);
+
+            return tp.ShortestRoute();
         }
     }
 }
