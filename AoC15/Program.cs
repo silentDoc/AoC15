@@ -152,7 +152,8 @@ namespace AoC15
         {
             var lines = File.ReadLines(input).ToList();
             JSONHelper jh = new JSONHelper();
-            return jh.GetSum(lines[0]);
+            return jh.GetSumJson(lines[0]);
+            //return jh.GetSum(lines[0]);
         }
     }
 }
