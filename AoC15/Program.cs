@@ -13,8 +13,8 @@ namespace AoC15
             string input = "";
             string result = "";
 
-            int day = 11;
-            int part = 2;
+            int day = 12;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -148,11 +148,11 @@ namespace AoC15
                                : pg.FindNextPass(firstPass);
         }
 
-        string Day12(string input, int part)
+        int Day12(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            
-            return "";
+            JSONHelper jh = new JSONHelper();
+            return jh.GetSum(lines[0]);
         }
     }
 }
