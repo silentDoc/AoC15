@@ -66,12 +66,13 @@ namespace AoC15
             }
         }
 
-        public int ShortestRoute()
+        public int GetRoute(int part)
         {
             foreach (var city in cities)
                 PossibleRoutes(city, cities.Where(x => x != city).ToList(), 0);
 
-            return distances.Min();
+            return (part==1) ? distances.Min()
+                             : distances.Max();
         }
     }
 }
