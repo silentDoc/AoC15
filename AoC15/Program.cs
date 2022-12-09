@@ -11,10 +11,10 @@ namespace AoC15
         {
             Program _instance = new Program();
             string input = "";
-            int result = -1;
+            string result = "";
 
-            int day = 9;
-            int part = 2;
+            int day = 10;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -24,16 +24,16 @@ namespace AoC15
 
             result = day switch
             {
-                1 => _instance.Day1(input, part),
-                2 => _instance.Day2(input, part),
-                3 => _instance.Day3(input, part),
-                4 => _instance.Day4(input, part),
-                5 => _instance.Day5((part == 2 && test) ? "./Input/day5_2_test.txt" : input, part),
-                6 => _instance.Day6(input, part),
-                7 => _instance.Day7(input, part),
-                8 => _instance.Day8(input, part),
-                9 => _instance.Day9(input, part),
-                10 => _instance.Day10(input, part),
+                1 => _instance.Day1(input, part).ToString(),
+                2 => _instance.Day2(input, part).ToString(),
+                3 => _instance.Day3(input, part).ToString(),
+                4 => _instance.Day4(input, part).ToString(),
+                5 => _instance.Day5((part == 2 && test) ? "./Input/day5_2_test.txt" : input, part).ToString(),
+                6 => _instance.Day6(input, part).ToString(),
+                7 => _instance.Day7(input, part).ToString(),
+                8 => _instance.Day8(input, part).ToString(),
+                9 => _instance.Day9(input, part).ToString(),
+                10 => _instance.Day10(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -130,7 +130,9 @@ namespace AoC15
         int Day10(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            return 0;
+            var lookAndSay = new LookAndSay();
+
+            return lookAndSay.PlayTimes(lines[0],40);
         }
     }
 }
