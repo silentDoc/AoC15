@@ -35,6 +35,7 @@ namespace AoC15
                 9 => _instance.Day9(input, part).ToString(),
                 10 => _instance.Day10(input, part).ToString(),
                 11 => _instance.Day11(input, part).ToString(),
+                12 => _instance.Day12(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -145,6 +146,13 @@ namespace AoC15
             var firstPass = pg.FindNextPass(lines[0]);
             return (part == 1) ? firstPass
                                : pg.FindNextPass(firstPass);
+        }
+
+        string Day12(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            
+            return "";
         }
     }
 }
