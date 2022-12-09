@@ -23,21 +23,28 @@ namespace AoC15
             return matches.Select(x => int.Parse(x.Value)).Sum();
         }
 
-        public int GetSumJson(string input, int part = 2)
+        public int GetSumJson(string input, int part)
         { 
             var json = JObject.Parse(input);
-            return (int) sumJson(json);
+            return (int) sumJson(json, part);
         }
 
 
         // This SO question came handly
         // https://stackoverflow.com/questions/53649570/how-do-you-check-if-a-json-array-is-an-array-of-objects-or-primitives-recursivel
-        long sumJson(JToken token)
+        long sumJson(JToken token, int part)
         {
             if (token is JObject jobj)
-                return jobj.Properties().Select(p => p.Value).Sum(jt => sumJson(jt));
+            {
+                bool hasRed = jobj.Properties().Select(x => x.Value).OfType<JValue>()
+                                               .Select(y => y.Value).OfType<string>().Any(z => z == "red");
+                
+                return ((part==2) && hasRed) ? 0
+                                : jobj.Properties().Select(p => p.Value).Sum(jt => sumJson(jt, part));
+                
+            }
             else if (token is JArray jarr)
-                return jarr.Sum(x => sumJson(x));
+                return jarr.Sum(x => sumJson(x, part));
             else if (token is JValue jval)
                 return (jval.Value is long) ? (long)jval.Value : 0;
 

@@ -14,7 +14,7 @@ namespace AoC15
             string result = "";
 
             int day = 12;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -152,8 +152,9 @@ namespace AoC15
         {
             var lines = File.ReadLines(input).ToList();
             JSONHelper jh = new JSONHelper();
-            return jh.GetSumJson(lines[0]);
             //return jh.GetSum(lines[0]);
+            return jh.GetSumJson(lines[0], part);
+            
         }
     }
 }
