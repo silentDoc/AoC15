@@ -9,17 +9,18 @@ namespace AoC15.Day13
     // Looks like an iteration of the previous TripPlanner Problem, so the approach will be the same
     class Pair
     {
-        public string origin;
-        public string destination;
-        public int distance;
+        public string guest;
+        public string guestBeside;
+        public int happiness;
 
-        public Route(string origin, string destination, int distance)
+        public Pair(string guest, string guestBeside, int happiness)
         {
-            this.origin = origin;
-            this.destination = destination;
-            this.distance = distance;
+            this.guest = guest;
+            this.guestBeside = guestBeside;
+            this.happiness = happiness;
         }
     }
+
     internal class DinnerTable
     {
     }
