@@ -32,6 +32,7 @@ namespace AoC15
                 6 => _instance.Day6(input, part),
                 7 => _instance.Day7(input, part),
                 8 => _instance.Day8(input, part),
+                9 => _instance.Day9(input, part),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -114,9 +115,13 @@ namespace AoC15
             StringMemory stringMemo = new();
             int value = (part == 1) ? stringMemo.Process(lines)
                                     : stringMemo.ProcessP2(lines);
-
-
             return value;
+        }
+
+        int Day9(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            return 0;
         }
     }
 }
