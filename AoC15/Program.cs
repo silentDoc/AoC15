@@ -13,7 +13,7 @@ namespace AoC15
             string input = "";
             string result = "";
 
-            int day = 10;
+            int day = 11;
             int part = 1;
             bool test = false;
 
@@ -141,7 +141,8 @@ namespace AoC15
         string Day11(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            return "";
+            PasswordGenerator pg = new();
+            return pg.FindNextPass(lines[0]);
         }
     }
 }
