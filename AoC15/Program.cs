@@ -34,6 +34,7 @@ namespace AoC15
                 8 => _instance.Day8(input, part).ToString(),
                 9 => _instance.Day9(input, part).ToString(),
                 10 => _instance.Day10(input, part).ToString(),
+                11 => _instance.Day11(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -135,6 +136,12 @@ namespace AoC15
 
             return (part == 1) ? lookAndSay.PlayTimes(lines[0],40)
                                : lookAndSay.PlayTimes(lines[0],50);
+        }
+
+        string Day11(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            return "";
         }
     }
 }

@@ -38,10 +38,8 @@ namespace AoC15
         {
             string tmp = input;
             for (int i = 0; i < count; i++)
-            {
                 tmp = Play(tmp);
-                Console.WriteLine(i.ToString());
-            }
+
             return tmp.Length;
         }
 
