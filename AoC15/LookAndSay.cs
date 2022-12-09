@@ -10,7 +10,7 @@ namespace AoC15
     internal class LookAndSay
     {
         // Ridiculous performance improvement by using StringBuilder and 
-        // chars to count. 
+        // chars to count (instead of string and int like I did before). 
         public string Play(string input)
         {
             StringBuilder newString = new StringBuilder("");
