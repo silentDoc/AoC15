@@ -13,8 +13,8 @@ namespace AoC15
             string input = "";
             string result = "";
 
-            int day = 12;
-            int part = 2;
+            int day = 13;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -36,6 +36,7 @@ namespace AoC15
                 10 => _instance.Day10(input, part).ToString(),
                 11 => _instance.Day11(input, part).ToString(),
                 12 => _instance.Day12(input, part).ToString(),
+                13 => _instance.Day13(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -155,6 +156,13 @@ namespace AoC15
             //return jh.GetSum(lines[0]);
             return jh.GetSumJson(lines[0], part);
             
+        }
+
+        int Day13(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+
+            return 0;
         }
     }
 }
