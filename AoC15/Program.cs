@@ -33,6 +33,7 @@ namespace AoC15
                 7 => _instance.Day7(input, part),
                 8 => _instance.Day8(input, part),
                 9 => _instance.Day9(input, part),
+                10 => _instance.Day10(input, part),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -124,6 +125,12 @@ namespace AoC15
             var tp = new TripPlanner(lines);
 
             return tp.GetRoute(part);
+        }
+
+        int Day10(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            return 0;
         }
     }
 }
