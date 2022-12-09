@@ -161,8 +161,8 @@ namespace AoC15
         int Day13(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-
-            return 0;
+            Day13.DinnerTable dt = new(lines);
+            return dt.GetHappiness(part);
         }
     }
 }
