@@ -108,8 +108,19 @@ namespace AoC15.Day13
             foreach (var guest in guests)
                 PossibleSeat(guest, guests.Where(x => x != guest).ToList(), guest);
 
-            return (part == 1) ? totalHappiness.Max()
-                               : totalHappiness.Min();
+            return totalHappiness.Max();
+        }
+
+        public void AddMyself()
+        {
+            string me = "Myself";
+            foreach (var guest in guests)
+            {
+                combinations.Add(new Pair(guest, me, 0));
+                combinations.Add(new Pair(me, guest, 0));
+            }        
+            
+            guests.Add(me);
         }
     }
 }

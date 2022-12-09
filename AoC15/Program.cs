@@ -14,7 +14,7 @@ namespace AoC15
             string result = "";
 
             int day = 13;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -162,6 +162,8 @@ namespace AoC15
         {
             var lines = File.ReadLines(input).ToList();
             Day13.DinnerTable dt = new(lines);
+            if (part == 2)
+                dt.AddMyself();
             return dt.GetHappiness(part);
         }
     }
