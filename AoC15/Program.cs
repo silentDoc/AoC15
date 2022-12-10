@@ -13,8 +13,8 @@ namespace AoC15
             string input = "";
             string result = "";
 
-            int day = 13;
-            int part = 2;
+            int day = 14;
+            int part = 1;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -167,11 +167,13 @@ namespace AoC15
                 dt.AddMyself();
             return dt.GetHappiness(part);
         }
+        
         int Day14(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            return 0;
-        }
+            Day14.ReindeerRacer racer = new(lines);
 
+            return racer.Race(2503);
+        }
     }
 }
