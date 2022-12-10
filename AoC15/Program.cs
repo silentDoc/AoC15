@@ -14,7 +14,7 @@ namespace AoC15
             string result = "";
 
             int day = 14;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             input = "./Input/day" + day.ToString() + "_1";
@@ -173,7 +173,8 @@ namespace AoC15
             var lines = File.ReadLines(input).ToList();
             Day14.ReindeerRacer racer = new(lines);
 
-            return racer.Race(2503);
+            return (part == 1) ? racer.Race(2503)
+                               : racer.RaceNewSystem(2503);
         }
     }
 }

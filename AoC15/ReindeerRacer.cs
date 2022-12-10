@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,5 +54,27 @@ namespace AoC15.Day14
 
         public int Race(int seconds) =>
              racers.Select(x => x.Race(seconds)).Max();
+
+        public int RaceNewSystem(int seconds)
+        {
+            int[] points = new int[racers.Count];
+
+            for (int i = 1; i <= seconds; i++)
+            {
+                var snapshot = racers.Select(x => x.Race(i)).ToList();
+                
+                int leadDist = snapshot.Max();
+                var award = snapshot.Select(x => x == leadDist).ToList();
+
+                for (int j = 0; j < snapshot.Count; j++)
+                    if (award[j]) points[j]++;
+
+                int a = 1;
+                a = 1 + 1;
+
+            }
+
+            return points.Max();
+        }
     }
 }
