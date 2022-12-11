@@ -29,6 +29,9 @@ namespace AoC15.Day15
 
         public int[] Properties(int teaspoons)
             => new int[4] { capacity * teaspoons, durability * teaspoons, flavor * teaspoons, texture * teaspoons };
+
+        public int Calories(int teaspoons)
+            => calories * teaspoons;
     }
 
 
@@ -57,7 +60,7 @@ namespace AoC15.Day15
             return listIngredients.Count;
         }
 
-        public long FindBestCookieBruteForce()
+        public long FindBestCookieBruteForce(int part =1)
         {
             List<long> scores = new();
             List<int[]> proportions = new();
@@ -79,8 +82,14 @@ namespace AoC15.Day15
                 if (teaspons.Sum() != 100)
                     continue;
 
-                scores.Add(score(teaspons));
-                //proportions.Add((int[]) teaspons.Clone());
+                if(part==1)
+                    scores.Add(score(teaspons));
+                else 
+                {
+                    var cals = teaspons.Select((x, index) => listIngredients[index].Calories(x)).Sum();
+                    if (cals == 500)
+                        scores.Add(score(teaspons));
+                }
             }
 
             long result = scores.Max();

@@ -10,7 +10,7 @@ namespace AoC15
         static void Main()
         {
             int day = 15;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -180,7 +180,7 @@ namespace AoC15
             Console.WriteLine(rm.ParseIngredients(lines));
             rm.FindBestCookieBruteForce();
 
-            return rm.FindBestCookieBruteForce(); 
+            return rm.FindBestCookieBruteForce(part); 
 
         }
     }
