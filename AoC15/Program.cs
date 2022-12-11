@@ -9,8 +9,8 @@ namespace AoC15
     {
         static void Main()
         {
-            int day = 14;
-            int part = 2;
+            int day = 15;
+            int part = 1;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -38,7 +38,6 @@ namespace AoC15
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
-            Console.ReadLine();
         }
 
         static int Day1(string input, int part)
@@ -174,10 +173,14 @@ namespace AoC15
                                : racer.RaceNewSystem(2503);
         }
 
-        static int Day15(string input, int part)
+        static long Day15(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
-            return 0;
+            Day15.RecipeManager rm = new();
+            Console.WriteLine(rm.ParseIngredients(lines));
+            rm.FindBestCookieBruteForce();
+
+            return rm.FindBestCookieBruteForce(); 
 
         }
     }
