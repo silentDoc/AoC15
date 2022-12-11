@@ -69,9 +69,6 @@ namespace AoC15.Day14
                 for (int j = 0; j < snapshot.Count; j++)
                     if (award[j]) points[j]++;
 
-                int a = 1;
-                a = 1 + 1;
-
             }
 
             return points.Max();

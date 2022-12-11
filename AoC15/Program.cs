@@ -7,44 +7,41 @@ namespace AoC15
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Program _instance = new Program();
-            string input = "";
-            string result = "";
-
             int day = 14;
             int part = 2;
             bool test = false;
 
-            input = "./Input/day" + day.ToString() + "_1";
+            string input = "./Input/day" + day.ToString() + "_1";
             input += (test) ? "_test.txt" : ".txt";
 
             Console.WriteLine("AoC 2015 - Day {0} , Part {1} - Test Data {2}", day, part, test);
 
-            result = day switch
+            string result = day switch
             {
-                1 => _instance.Day1(input, part).ToString(),
-                2 => _instance.Day2(input, part).ToString(),
-                3 => _instance.Day3(input, part).ToString(),
-                4 => _instance.Day4(input, part).ToString(),
-                5 => _instance.Day5((part == 2 && test) ? "./Input/day5_2_test.txt" : input, part).ToString(),
-                6 => _instance.Day6(input, part).ToString(),
-                7 => _instance.Day7(input, part).ToString(),
-                8 => _instance.Day8(input, part).ToString(),
-                9 => _instance.Day9(input, part).ToString(),
-                10 => _instance.Day10(input, part).ToString(),
-                11 => _instance.Day11(input, part).ToString(),
-                12 => _instance.Day12(input, part).ToString(),
-                13 => _instance.Day13(input, part).ToString(),
-                14 => _instance.Day14(input, part).ToString(),
+                1 => Program.Day1(input, part).ToString(),
+                2 => Program.Day2(input, part).ToString(),
+                3 => Program.Day3(input, part).ToString(),
+                4 => Program.Day4(input, part).ToString(),
+                5 => Program.Day5((part == 2 && test) ? "./Input/day5_2_test.txt" : input, part).ToString(),
+                6 => Program.Day6(input, part).ToString(),
+                7 => Program.Day7(input, part).ToString(),
+                8 => Program.Day8(input, part).ToString(),
+                9 => Program.Day9(input, part).ToString(),
+                10 => Program.Day10(input, part).ToString(),
+                11 => Program.Day11(input, part).ToString(),
+                12 => Program.Day12(input, part).ToString(),
+                13 => Program.Day13(input, part).ToString(),
+                14 => Program.Day14(input, part).ToString(),
+                15 => Program.Day15(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
             Console.ReadLine();
         }
 
-        int Day1(string input, int part)
+        static int Day1(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             Day1.Elevator elevator =  new(lines[0]);
@@ -52,7 +49,7 @@ namespace AoC15
             return part == 1 ? elevator.FinalFloor : elevator.BasementEntry();
         }
 
-        int Day2(string input, int part)
+        static int Day2(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             var boxes = lines.Select(x => new Day2.PresentBox(x)).ToList();
@@ -60,7 +57,7 @@ namespace AoC15
             return part == 1 ? boxes.Sum(x => x.WrapArea) : boxes.Sum(x => x.RibbonLength);
         }
 
-        int Day3(string input, int part)
+        static int Day3(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             var routes = lines.Select(x => new Day3.PresentRoute(x, part)).ToList();
@@ -68,7 +65,7 @@ namespace AoC15
             return routes.Sum(x=>x.VisitedHouses);
         }
 
-        int Day4(string input, int part)
+        static int Day4(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             var miner = new Day4.AdventCoinMiner(lines[0]);
@@ -76,14 +73,14 @@ namespace AoC15
             return miner.Mine(part);
         }
 
-        int Day5(string input, int part)
+        static int Day5(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             var niceLines = lines.Select(x => new Day5.StringChecker(x, part).IsNice).ToList();
             return niceLines.Where(x => x == true).Count();
         }
 
-        int Day6(string input, int part)
+        static int Day6(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             Day6.LightManager lightManager = new(part);
@@ -94,7 +91,7 @@ namespace AoC15
             return lightManager.CountLights();
         }
 
-        int Day7(string input, int part)
+        static int Day7(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
 
@@ -114,7 +111,7 @@ namespace AoC15
             return cm.GetWireValue("a");
         }
 
-        int Day8(string input, int part)
+        static int Day8(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             Day8.StringMemory stringMemo = new();
@@ -123,7 +120,7 @@ namespace AoC15
             return value;
         }
 
-        int Day9(string input, int part)
+        static int Day9(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             var tp = new Day9.TripPlanner(lines);
@@ -131,7 +128,7 @@ namespace AoC15
             return tp.GetRoute(part);
         }
 
-        int Day10(string input, int part)
+        static int Day10(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             var lookAndSay = new Day10.LookAndSay();
@@ -141,7 +138,7 @@ namespace AoC15
                                : lookAndSay.PlayTimes(lines[0],50);
         }
 
-        string Day11(string input, int part)
+        static string Day11(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             Day11.PasswordGenerator pg = new();
@@ -150,7 +147,7 @@ namespace AoC15
                                : pg.FindNextPass(firstPass);
         }
 
-        int Day12(string input, int part)
+        static int Day12(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             Day12.JSONHelper jh = new();
@@ -159,7 +156,7 @@ namespace AoC15
             return jh.GetSumJson(lines[0], part);
         }
 
-        int Day13(string input, int part)
+        static int Day13(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             Day13.DinnerTable dt = new(lines);
@@ -167,14 +164,21 @@ namespace AoC15
                 dt.AddMyself();
             return dt.GetHappiness(part);
         }
-        
-        int Day14(string input, int part)
+
+        static int Day14(string input, int part)
         {
             var lines = File.ReadLines(input).ToList();
             Day14.ReindeerRacer racer = new(lines);
 
             return (part == 1) ? racer.Race(2503)
                                : racer.RaceNewSystem(2503);
+        }
+
+        static int Day15(string input, int part)
+        {
+            var lines = File.ReadLines(input).ToList();
+            return 0;
+
         }
     }
 }
