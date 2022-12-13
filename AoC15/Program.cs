@@ -10,7 +10,7 @@ namespace AoC15
         static void Main()
         {
             int day = 16;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -187,7 +187,8 @@ namespace AoC15
         static int day16(string input, int part)
         {
             var lines = File.ReadAllLines(input).ToList();
-            return Day16.AuntSueFinder.Part1(lines);
+            return (part ==1) ? Day16.AuntSueFinder.Part1(lines)
+                              : Day16.AuntSueFinder.Part2(lines);
         }
     }
 }

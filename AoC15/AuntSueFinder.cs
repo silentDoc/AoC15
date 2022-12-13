@@ -26,16 +26,13 @@ namespace AoC15.Day16
             theSue["perfumes"] = 1;
         }
 
-
-        public static int Part1(List<string> input)
+        static List<Dictionary<string, int>> getSues(List<string> input)
         {
             List<Dictionary<string, int>> allSues = new();
-            loadSue();
-
             // Sample -  Sue 1: goldfish: 6, trees: 9, akitas: 0
             var regex = new Regex(@"Sue ([0-9]\d*): (\w+): ([0-9]\d*), (\w+): ([0-9]\d*), (\w+): ([0-9]\d*)");
-            
-            foreach(string line in input)
+
+            foreach (string line in input)
             {
                 Dictionary<string, int> dict = new();
                 var groups = regex.Match(line).Groups;
@@ -45,15 +42,55 @@ namespace AoC15.Day16
 
                 allSues.Add(dict);
             }
+            return allSues;
+        }
 
+        public static int Part1(List<string> input)
+        {
+            loadSue();
+            var allSues = getSues(input);
             int found = 1;
+
             foreach (var sue in allSues)
             {
                 var keys = sue.Keys.ToList();
                 var foundSue = keys.Aggregate(true, (acc, val) => acc && (sue[val] == theSue[val]));
                 if (foundSue)
                 {
-                    found = allSues.IndexOf(sue)+1;
+                    found = allSues.IndexOf(sue) + 1;
+                    break;
+                }
+            }
+
+            return found;
+        }
+
+        public static int Part2(List<string> input)
+        {
+            loadSue();
+            var allSues = getSues(input);
+            int found = 1;
+
+            List<string> greater = new() { "cats", "trees"};
+            List<string> fewer = new() {"pomeranians", "goldfish"};
+
+            foreach (var sue in allSues)
+            {
+                var keys = sue.Keys.ToList();
+                bool foundSue = true;
+                foreach (var key in keys)
+                {
+                    if (greater.Contains(key))
+                        foundSue = foundSue && (sue[key] > theSue[key]);
+                    else if (fewer.Contains(key))
+                        foundSue = foundSue && (sue[key] < theSue[key]);
+                    else
+                        foundSue = foundSue && (sue[key] == theSue[key]);
+                }
+
+                if (foundSue)
+                {
+                    found = allSues.IndexOf(sue) + 1;
                     break;
                 }
             }
