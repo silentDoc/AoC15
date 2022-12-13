@@ -181,7 +181,14 @@ namespace AoC15
             rm.FindBestCookieBruteForce();
 
             return rm.FindBestCookieBruteForce(part); 
+        }
 
+        static int Day16(string input, int part)
+        {
+            var lines = File.ReadAllLines(input).ToList();
+            //Day16.AuntSueFinder asf = new();
+
+            return 0;
         }
     }
 }
