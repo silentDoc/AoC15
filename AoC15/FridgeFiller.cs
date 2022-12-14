@@ -47,11 +47,8 @@ namespace AoC15.Day17
 
     public class FridgeFiller
     {
-        int fridgeSpace = 0;
-        List<int> containers = new();
+        int fridgeSpace;
         List<FridgeContainer> fridgeContainers = new();
-        List<List<int>> combinations = new();
-        List<List<FridgeContainer>> fridgeCombinations = new();
 
         public FridgeFiller(int fridgeSpace, List<string> input)
         {
@@ -69,7 +66,6 @@ namespace AoC15.Day17
 
         public int SolvePart1()
         {
-            combinations.Clear();
             var combs = putInFridge(fridgeContainers, new List<FridgeContainer>()).ToList();
             var uniqueCombinations = combs.Distinct(new FridgeContainerListComparer()).ToList();
             return uniqueCombinations.Count();
