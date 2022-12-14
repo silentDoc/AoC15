@@ -9,8 +9,8 @@ namespace AoC15
     {
         static void Main()
         {
-            int day = 17;
-            int part = 2;
+            int day = 18;
+            int part = 1;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -37,6 +37,7 @@ namespace AoC15
                 15 => day15(input, part).ToString(),
                 16 => day16(input, part).ToString(),
                 17 => day17(input, part).ToString(),
+                18 => day18(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -200,6 +201,13 @@ namespace AoC15
 
             return (part == 1) ? ff.SolvePart1()
                                : ff.SolvePart2();
+        }
+
+        static int day18(string input, int part)
+        {
+            var lines = File.ReadAllLines(input).ToList();
+
+            return 0;
         }
     }
 }

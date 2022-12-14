@@ -73,7 +73,6 @@ namespace AoC15.Day17
 
         public int SolvePart2()
         {
-            combinations.Clear();
             var combs = putInFridge(fridgeContainers, new List<FridgeContainer>()).ToList();
             var uniqueCombinations = combs.Distinct(new FridgeContainerListComparer()).ToList();
             var minNumContainers = uniqueCombinations.Select(p => p.Count).Min();
