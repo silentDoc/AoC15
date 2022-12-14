@@ -11,7 +11,7 @@ namespace AoC15
         {
             int day = 17;
             int part = 1;
-            bool test = true;
+            bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
             input += (test) ? "_test.txt" : ".txt";
@@ -195,7 +195,10 @@ namespace AoC15
         static int day17(string input, int part)
         {
             var lines = File.ReadAllLines(input).ToList();
-            return 0;
+            int capacity = (input.IndexOf("test") != -1) ? 25 : 150;
+            Day17.FridgeFiller ff = new(capacity, lines);
+
+            return ff.SolvePart1();
         }
     }
 }
