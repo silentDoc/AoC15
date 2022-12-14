@@ -10,7 +10,7 @@ namespace AoC15
         static void Main()
         {
             int day = 17;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -198,7 +198,8 @@ namespace AoC15
             int capacity = (input.IndexOf("test") != -1) ? 25 : 150;
             Day17.FridgeFiller ff = new(capacity, lines);
 
-            return ff.SolvePart1();
+            return (part == 1) ? ff.SolvePart1()
+                               : ff.SolvePart2();
         }
     }
 }

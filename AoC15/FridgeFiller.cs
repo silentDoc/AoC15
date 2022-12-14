@@ -12,7 +12,6 @@ namespace AoC15.Day17
     {
         public string name;
         public int capacity;
-
     }
 
     internal class FridgeContainerListComparer : IEqualityComparer<List<FridgeContainer>>
@@ -74,6 +73,17 @@ namespace AoC15.Day17
             var combs = putInFridge(fridgeContainers, new List<FridgeContainer>()).ToList();
             var uniqueCombinations = combs.Distinct(new FridgeContainerListComparer()).ToList();
             return uniqueCombinations.Count();
+        }
+
+        public int SolvePart2()
+        {
+            combinations.Clear();
+            var combs = putInFridge(fridgeContainers, new List<FridgeContainer>()).ToList();
+            var uniqueCombinations = combs.Distinct(new FridgeContainerListComparer()).ToList();
+            var minNumContainers = uniqueCombinations.Select(p => p.Count).Min();
+            var minUniqueCombinations = uniqueCombinations.Where(p => p.Count == minNumContainers).Count();
+
+            return minUniqueCombinations;
         }
 
 
