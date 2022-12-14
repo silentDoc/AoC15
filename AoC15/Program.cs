@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using AoC15.Day18;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
@@ -206,8 +207,10 @@ namespace AoC15
         static int day18(string input, int part)
         {
             var lines = File.ReadAllLines(input).ToList();
+            int iterations = (input.IndexOf("test") != -1) ? 4 : 100;
+            LightPanelManager lpm = new();
 
-            return 0;
+            return lpm.SolvePart1(lines, iterations, part);
         }
     }
 }
