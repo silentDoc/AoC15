@@ -11,7 +11,7 @@ namespace AoC15
         static void Main()
         {
             int day = 18;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -207,10 +207,10 @@ namespace AoC15
         static int day18(string input, int part)
         {
             var lines = File.ReadAllLines(input).ToList();
-            int iterations = (input.IndexOf("test") != -1) ? 4 : 100;
+            int iterations = (input.IndexOf("test") != -1) ? ((part ==1) ? 4 :5) : 100;
             LightPanelManager lpm = new();
 
-            return lpm.SolvePart1(lines, iterations, part);
+            return lpm.Solve(lines, iterations, part);
         }
     }
 }
