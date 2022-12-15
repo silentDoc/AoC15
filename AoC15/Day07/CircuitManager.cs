@@ -7,17 +7,17 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace AoC15.Day7
+namespace AoC15.Day07
 {
     enum WireOperations
-    { 
+    {
         assign,
         bypass,
         not,
         and,
         numeric_and,
         or,
-        lshift, 
+        lshift,
         rshift
     }
 
@@ -32,8 +32,8 @@ namespace AoC15.Day7
         string nodeA = "";
         string nodeB = "";
 
-        public wire() 
-        { 
+        public wire()
+        {
             name = "";
             hasValue = false;
         }
@@ -43,7 +43,7 @@ namespace AoC15.Day7
             this.name = name;
             this.howToSolve = howToSolve;
 
-            hasValue = (howToSolve == WireOperations.assign);
+            hasValue = howToSolve == WireOperations.assign;
             this.value = value;
             this.nodeA = nodeA;
             this.nodeB = nodeB;
@@ -53,7 +53,7 @@ namespace AoC15.Day7
         public void Update(WireOperations howToSolve, ushort value, string nodeA, string nodeB)
         {
             this.howToSolve = howToSolve;
-            hasValue = (howToSolve == WireOperations.assign);
+            hasValue = howToSolve == WireOperations.assign;
             this.value = value;
             this.nodeA = nodeA;
             this.nodeB = nodeB;
@@ -68,8 +68,8 @@ namespace AoC15.Day7
             wire? wireA = wires.Where(x => x.name == nodeA).FirstOrDefault();
             wire? wireB = wires.Where(x => x.name == nodeB).FirstOrDefault();
 
-            ushort valueA = (wireA != null) ? wireA.GetValue(wires) : (ushort)0;
-            ushort valueB = (wireB != null) ? wireB.GetValue(wires) : (ushort)0;
+            ushort valueA = wireA != null ? wireA.GetValue(wires) : (ushort)0;
+            ushort valueB = wireB != null ? wireB.GetValue(wires) : (ushort)0;
 
             value = howToSolve switch
             {
@@ -91,7 +91,7 @@ namespace AoC15.Day7
     internal class CircuitManager
     {
 
-        List<wire> wires; 
+        List<wire> wires;
 
         int part = 1;
         public CircuitManager(int part)
@@ -121,9 +121,9 @@ namespace AoC15.Day7
 
             var regex_assign = new Regex(@"^(\w+)");
             var regex_not = new Regex(@"^NOT (\w+)");
-            var regex_3factor = new Regex(@"^(\w+) (AND|OR|LSHIFT|RSHIFT) (\w+)"); 
+            var regex_3factor = new Regex(@"^(\w+) (AND|OR|LSHIFT|RSHIFT) (\w+)");
 
-           
+
             if (regex_not.IsMatch(command))
                 wires.Add(new wire(wire, WireOperations.not, 0, factors[1], ""));
             else if (regex_3factor.IsMatch(command))
@@ -135,7 +135,7 @@ namespace AoC15.Day7
                         wires.Add(new wire(wire, WireOperations.and, 0, factors[0], factors[2]));
 
                 if (factors[1] == "OR")
-                        wires.Add(new wire(wire, WireOperations.or, 0, factors[0], factors[2]));
+                    wires.Add(new wire(wire, WireOperations.or, 0, factors[0], factors[2]));
 
                 if (factors[1] == "LSHIFT")
                     wires.Add(new wire(wire, WireOperations.lshift, ushort.Parse(factors[2]), factors[0], ""));
@@ -152,22 +152,22 @@ namespace AoC15.Day7
         }
 
         public ushort GetWireValue(string wireName)
-        { 
+        {
             var wire = getWire(wireName);
 
 
-            var result = (wire != null) 
+            var result = wire != null
                         ? wire.GetValue(wires)
                         : throw new ArgumentException("Can't find wire : " + wireName);
-            
+
             return result;
         }
 
-        public void OverrideWire(string name, WireOperations operation, ushort value, 
+        public void OverrideWire(string name, WireOperations operation, ushort value,
                                  string nodeA, string nodeB)
         {
             var wire = getWire(name);
-            if(wire==null)
+            if (wire == null)
                 throw new ArgumentException("Can't find wire " + name);
             wire.Update(operation, value, nodeA, nodeB);
         }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AoC15.Day6
+namespace AoC15.Day06
 {
     internal class LightManager
     {
@@ -19,7 +19,7 @@ namespace AoC15.Day6
 
             panel = new int[1000][];
             for (int i = 0; i < 1000; panel[i++] = new int[1000]) ;
-            
+
             for (int i = 0; i < 1000; i++)
                 for (int j = 0; j < 1000; j++)
                     panel[i][j] = 0;
@@ -39,7 +39,7 @@ namespace AoC15.Day6
         public void DoInstruction(string line)
         {
             // ugly
-            
+
             if (line.StartsWith("turn on "))
                 TurnOn(line.Replace("turn on ", ""));
             else if (line.StartsWith("turn off "))
@@ -53,7 +53,7 @@ namespace AoC15.Day6
         void TurnOn(string range)
         {
             var pos = GetPositions(range);
-            if(part==1)
+            if (part == 1)
                 for (var i = pos[0]; i <= pos[2]; i++)
                     for (var j = pos[1]; j <= pos[3]; j++)
                         panel[i][j] = 1;
@@ -74,7 +74,7 @@ namespace AoC15.Day6
                 for (var i = pos[0]; i <= pos[2]; i++)
                     for (var j = pos[1]; j <= pos[3]; j++)
                     {
-                        panel[i][j]-= (panel[i][j]>0)?1:0;
+                        panel[i][j] -= panel[i][j] > 0 ? 1 : 0;
                     }
 
         }
@@ -84,7 +84,7 @@ namespace AoC15.Day6
             if (part == 1)
                 for (var i = pos[0]; i <= pos[2]; i++)
                     for (var j = pos[1]; j <= pos[3]; j++)
-                        panel[i][j] = (panel[i][j] == 0) ? 1 : 0;
+                        panel[i][j] = panel[i][j] == 0 ? 1 : 0;
             else
                 for (var i = pos[0]; i <= pos[2]; i++)
                     for (var j = pos[1]; j <= pos[3]; j++)
@@ -93,7 +93,7 @@ namespace AoC15.Day6
 
         int[] GetPositions(string range)
         {
-            var str = range.Replace("through ","");
+            var str = range.Replace("through ", "");
             var positions = str.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             var start = positions[0].Split(",");

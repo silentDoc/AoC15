@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AoC15.Day8
+namespace AoC15.Day08
 {
     internal class StringMemory
     {
@@ -25,7 +25,7 @@ namespace AoC15.Day8
             input.Select(x => new { original = x, processed = unescape(x) })
                 .Sum(y => y.original.Length - y.processed.Length);
 
-        public int ProcessP2(List<string> input) => 
+        public int ProcessP2(List<string> input) =>
             input.Select(x => new { original = x, processed = escape(x) })
                 .Sum(y => y.processed.Length - y.original.Length);
     }

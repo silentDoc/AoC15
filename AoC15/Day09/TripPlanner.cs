@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AoC15.Day9
+namespace AoC15.Day09
 {
     class Route
     {
@@ -18,7 +18,7 @@ namespace AoC15.Day9
             this.origin = origin;
             this.destination = destination;
             this.distance = distance;
-        }   
+        }
     }
 
     internal class TripPlanner
@@ -38,7 +38,7 @@ namespace AoC15.Day9
 
         void ProcessInput(List<string> routes)
         {
-            foreach (var route in routes) 
+            foreach (var route in routes)
             {
                 var parts = route.Split(" = ");
                 var city1 = parts[0].Split(" to ")[0];
@@ -71,7 +71,7 @@ namespace AoC15.Day9
             foreach (var city in cities)
                 PossibleRoutes(city, cities.Where(x => x != city).ToList(), 0);
 
-            return (part==1) ? distances.Min()
+            return part == 1 ? distances.Min()
                              : distances.Max();
         }
     }

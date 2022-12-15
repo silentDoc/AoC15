@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AoC15.Day3
+namespace AoC15.Day03
 {
     // This exercise was funny because I got to know how broken struct/object comparison is implemented
     // When using functions like "Distinct" on custom structs or object, C# compares different objects using 
@@ -20,16 +20,16 @@ namespace AoC15.Day3
     }
 
     internal class HousePositionComparer : IEqualityComparer<HousePosition>
-    { 
-        public bool Equals(HousePosition? a, HousePosition? b) 
+    {
+        public bool Equals(HousePosition? a, HousePosition? b)
         {
             if (a is not null && b is not null)
-                return (a.x == b.x) && (a.y == b.y);
+                return a.x == b.x && a.y == b.y;
             else
                 return false;
         }
 
-        public int GetHashCode(HousePosition obj) 
+        public int GetHashCode(HousePosition obj)
         {
             string S = obj.x.ToString() + "-" + obj.y.ToString();
             return S.GetHashCode();
@@ -59,7 +59,7 @@ namespace AoC15.Day3
 
             visitedPositions.Add(currentPosition);
 
-            for(int i=0;i<route.Length;i++) 
+            for (int i = 0; i < route.Length; i++)
             {
                 char move = route[i];
                 currentPosition = Move(move, currentPosition);
@@ -93,10 +93,10 @@ namespace AoC15.Day3
 
         static HousePosition Move(char move, HousePosition current) => move switch
         {
-            '>' => new HousePosition() { x = current.x + 1, y = current.y},
-            '<' => new HousePosition() { x = current.x - 1, y = current.y},
-            '^' => new HousePosition() { x = current.x , y = current.y + 1},
-            'v' => new HousePosition() { x = current.x , y = current.y - 1},
+            '>' => new HousePosition() { x = current.x + 1, y = current.y },
+            '<' => new HousePosition() { x = current.x - 1, y = current.y },
+            '^' => new HousePosition() { x = current.x, y = current.y + 1 },
+            'v' => new HousePosition() { x = current.x, y = current.y - 1 },
             _ => throw new ArgumentException("Invalid move char : " + move),
         };
     }

@@ -1,5 +1,4 @@
-﻿using AoC15.Day3;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace AoC15.Day17
 {
     internal class FridgeContainer
     {
-        public string name;
+        public string name="";
         public int capacity;
     }
 
