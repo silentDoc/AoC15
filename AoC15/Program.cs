@@ -38,6 +38,7 @@ namespace AoC15
                 16 => day16(input, part).ToString(),
                 17 => day17(input, part).ToString(),
                 18 => day18(input, part).ToString(),
+                19 => day19(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -207,6 +208,12 @@ namespace AoC15
             Day18.LightPanelManager lpm = new();
 
             return lpm.Solve(lines, iterations, part);
+        }
+
+        static int day19(string input, int part)
+        {
+            var lines = File.ReadAllLines(input).ToList();
+            return 0;
         }
     }
 }
