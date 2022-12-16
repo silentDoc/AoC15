@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Intrinsics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -55,7 +56,8 @@ namespace AoC15.Day19
 
         public int Solve(int part = 1)
             => (part == 1) ? SolvePart1() : SolvePart2();
-        
+            //=> (part == 1) ? SolvePart1() : SolvePart2_M2();
+
         public int SolvePart1()
         {
             List<string> molecules = new();
@@ -80,7 +82,34 @@ namespace AoC15.Day19
         public int SolvePart2()
         {
             var num = molecule.Count(char.IsUpper) - countStr(molecule, "Rn") - countStr(molecule, "Ar") - 2 * countStr(molecule, "Y") - 1;
-             return num;
+            return num;
+        }
+
+        string Contract(string molec)
+        {
+            foreach (var entry in pairs)
+            {
+                int len = entry.replacement.Length;
+                int pos = molec.LastIndexOf(entry.replacement);
+
+                if (pos != -1)
+                    return molec.Substring(0, pos) + entry.element + molec.Substring(pos + len);
+            }
+            return "";
+        }
+      
+
+        // A more programatic approach to part 2 - not fully working yet
+        public int SolvePart2_M2()
+        {
+            int steps = 0;
+            string mol = molecule;
+            while (mol != "" && mol != "e")
+            {
+                mol = Contract(mol);
+                steps++;
+            }
+            return steps;
         }
     }
 }
