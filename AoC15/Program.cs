@@ -10,7 +10,7 @@ namespace AoC15
         static void Main()
         {
             int day = 19;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -215,7 +215,7 @@ namespace AoC15
             var lines = File.ReadAllLines(input).ToList();
             Day19.MoleculeBuilder mb = new(lines);
             
-            return mb.SolvePart1();
+            return mb.Solve(part);
         }
     }
 }
