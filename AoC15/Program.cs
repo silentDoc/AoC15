@@ -39,7 +39,7 @@ namespace AoC15
                 17 => day17(input, part).ToString(),
                 18 => day18(input, part).ToString(),
                 19 => day19(input, part).ToString(),
-                20 => day19(input, part).ToString(),
+                20 => day20(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -224,7 +224,7 @@ namespace AoC15
             //var lines = File.ReadAllLines(input).ToList();
             Day20.SantaDeliver sd = new();
 
-            return sd.Solve(part, 34000000);
+            return sd.Solve(34000000, part);
         }
     }
 }
