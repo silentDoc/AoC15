@@ -9,8 +9,8 @@ namespace AoC15
     {
         static void Main()
         {
-            int day = 19;
-            int part = 2;
+            int day = 20;
+            int part = 1;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -39,6 +39,7 @@ namespace AoC15
                 17 => day17(input, part).ToString(),
                 18 => day18(input, part).ToString(),
                 19 => day19(input, part).ToString(),
+                20 => day19(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -216,6 +217,14 @@ namespace AoC15
             Day19.MoleculeBuilder mb = new(lines);
             
             return mb.Solve(part);
+        }
+
+        static int day20(string input, int part)
+        {
+            //var lines = File.ReadAllLines(input).ToList();
+            Day20.SantaDeliver sd = new();
+
+            return sd.Solve(part, 34000000);
         }
     }
 }
