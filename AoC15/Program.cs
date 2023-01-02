@@ -39,7 +39,8 @@ namespace AoC15
                 17 => day17(input, part).ToString(),
                 18 => day18(input, part).ToString(),
                 19 => day19(input, part).ToString(),
-                20 => day20(input, part).ToString(),
+                20 => day20(part).ToString(),
+                21 => day21(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -219,12 +220,16 @@ namespace AoC15
             return mb.Solve(part);
         }
 
-        static int day20(string input, int part)
+        static int day20(int part)
         {
-            //var lines = File.ReadAllLines(input).ToList();
             Day20.SantaDeliver sd = new();
-
             return sd.Solve(34000000, part);
+        }
+
+        static int day21(string input, int part)
+        {
+            var lines = File.ReadAllLines(input).ToList();
+            return 0;
         }
     }
 }
