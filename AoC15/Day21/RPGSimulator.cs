@@ -164,7 +164,7 @@ namespace AoC15.Day21
             setup.playerWins = (hitPoints > 0);
         }
 
-        int CheaperWinningSetup()
+        List<Setup> GenerateSetups()
         {
             List<Setup> setups = new List<Setup>();
 
@@ -176,10 +176,17 @@ namespace AoC15.Day21
             int myHitPoints = 100;
             setups.ForEach(x => SimCombat(x, myHitPoints));
 
-            return setups.Where(x => x.playerWins).Min(x => x.cost);
+            return setups;
         }
 
+        int CheaperWinningSetup()
+            => GenerateSetups().Where(x => x.playerWins).Min(x => x.cost);
+
+        int MostExpensiveLosingSetup()
+            => GenerateSetups().Where(x => !x.playerWins).Max(x => x.cost);
+
+
         public int Solve(int part = 1)
-            => (part == 1) ? CheaperWinningSetup() : 0;
+            => (part == 1) ? CheaperWinningSetup() : MostExpensiveLosingSetup();
     }
 }
