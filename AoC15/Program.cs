@@ -9,8 +9,8 @@ namespace AoC15
     {
         static void Main()
         {
-            int day = 24;
-            int part = 2;
+            int day = 25;
+            int part = 1;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -44,6 +44,7 @@ namespace AoC15
                 22 => day22(input, part).ToString(),
                 23 => day23(input, part).ToString(),
                 24 => day24(input, part).ToString(),
+                25 => day25(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -269,6 +270,15 @@ namespace AoC15
             Console.WriteLine(st.Elapsed.TotalSeconds.ToString() + " s. ellapsed"); 
 
             return ret;
+        }
+
+        static long day25(string input, int part)
+        {
+            var lines = File.ReadAllLines(input).ToList();
+            Day25.CopyProtection copyProtection = new();
+            copyProtection.ParseInput(lines);
+
+            return copyProtection.Solve(part);
         }
     }
 }
