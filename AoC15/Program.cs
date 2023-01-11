@@ -10,7 +10,7 @@ namespace AoC15
         static void Main()
         {
             int day = 23;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";

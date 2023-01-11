@@ -55,7 +55,7 @@ namespace AoC15.Day23
         
         int RunProgram(int part = 1)
         {
-            registers["a"] = 0;
+            registers["a"] = (part == 1) ? 0 : 1;
             registers["b"] = 0;
             int currentIndex = 0;
             int value = 0;
