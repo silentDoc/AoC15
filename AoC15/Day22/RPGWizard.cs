@@ -34,17 +34,6 @@ namespace AoC15.Day22
 
     class Turn
     {
-        static int Cost(Action action)
-            => action switch
-            {
-                Action.MagicMissile => 53,
-                Action.Drain => 73,
-                Action.Shield => 113,
-                Action.Poison => 173,
-                Action.Recharge => 229,
-                _ => 0
-            };
-
         public bool PlayerTurn;
         public Action action;
         public EndCondition outcome = EndCondition.Unknown;
@@ -66,28 +55,7 @@ namespace AoC15.Day22
         public List<Turn>? children = null;
         public Turn? parent = null;
         public int TurnCount = 0;
-
-        public string OneLiner()
-        {
-            StringBuilder s = new();
-            s.Append("T : " + TurnCount.ToString());
-            s.Append(" - Action : " + action.ToString());
-            s.Append(" - Player : " + PlayerHitPoints.ToString());
-            s.Append(" vs Enemy : " + EnemyHitPoints.ToString());
-            s.Append(" ; Cost : " + Cost(action).ToString());
-            s.Append(" ; Av. Mana : " + PlayerCurrentManaPoints.ToString());
-            s.Append(" ; Sp. Mana : " + PlayerSpentManaPoints.ToString());
-            s.Append(" ;; " + outcome.ToString());
-            return s.ToString();
-        }
-
-        public void AdvanceEffects(Turn previousTurn)
-        {
-            activeEffect_Shield = (previousTurn.activeEffect_Shield > 0) ? previousTurn.activeEffect_Shield - 1 : 0;
-            activeEffect_Poison = (previousTurn.activeEffect_Poison > 0) ? previousTurn.activeEffect_Poison - 1 : 0;
-            activeEffect_Recharge = (previousTurn.activeEffect_Recharge > 0) ? previousTurn.activeEffect_Recharge - 1 : 0;
-        }
-
+        
         public void AdvanceEffects()
         {
             if(activeEffect_Shield>0) activeEffect_Shield--;
@@ -175,14 +143,27 @@ namespace AoC15.Day22
            };
 
 
-
-        public Turn NextTurn(Turn previousTurn, Action currentAction)
+        public Turn NextTurn(Turn previousTurn, Action currentAction, int part = 1)
         {
             Turn currentTurn = previousTurn.Clone();
             currentTurn.PlayerTurn = !previousTurn.PlayerTurn;
             currentTurn.action = currentAction;
             currentTurn.parent = previousTurn;
             currentTurn.TurnCount++;
+
+            if (part == 2)
+            {
+                currentTurn.PlayerHitPoints -= 1;
+
+                if (currentTurn.PlayerHitPoints <= 0)
+                {
+                    currentTurn.GameEnded = true;
+                    currentTurn.PlayerVictory = false;
+                    currentTurn.outcome = EndCondition.EnemyVictory;
+                    finalRounds.Add(currentTurn);
+                    return currentTurn;
+                }
+            }
 
             if (currentTurn.PlayerSpentManaPoints > MinManaSpent)
             {
@@ -307,162 +288,9 @@ namespace AoC15.Day22
             currentTurn.children = new();
 
             foreach (var nextAction in possibleActions)
-                currentTurn.children.Add(NextTurn(currentTurn, nextAction));
+                currentTurn.children.Add(NextTurn(currentTurn, nextAction, part));
 
             return currentTurn;
-        }
-
-        public void GeneratePossibleGames(List<Turn> game, Turn lastTurn, int part=1)
-        {
-           // if (part == 1 && lastTurn.PlayerSpentManaPoints > MinManaSpent)
-           //     return;
-
-            Turn newTurn = lastTurn.Clone();
-            
-            newTurn.PlayerTurn = !lastTurn.PlayerTurn;
-
-            newTurn.AdvanceEffects(lastTurn);
-            bool shieldIsActive = false;
-
-            // 1. Apply effects in place
-            if(newTurn.activeEffect_Shield > 0)
-                shieldIsActive = true;
-            
-            if (newTurn.activeEffect_Recharge > 0)
-                newTurn.PlayerCurrentManaPoints += RechargeManaIncrease;
-
-            if (newTurn.activeEffect_Poison > 0)
-                newTurn.EnemyHitPoints -= PoisonTurnDamage;
-            
-
-            // 1a. Check endgame (poison kill)
-            if (newTurn.EnemyHitPoints <= 0)
-            {
-                newTurn.GameEnded = true;
-                newTurn.PlayerVictory = true;
-                game.Add(newTurn);
-                possibleGames.Add(game);
-                finalRounds.Add(newTurn);
-                if (newTurn.PlayerSpentManaPoints < MinManaSpent)
-                    MinManaSpent = newTurn.PlayerSpentManaPoints;
-                return;
-            }
-
-            if (!newTurn.PlayerTurn)
-            {
-                // Enemy turn
-                // Consider effects in place
-                int armor = (shieldIsActive) ? ShieldArmorIncrease : 0;
-                newTurn.action = Action.EnemyAttack;
-                newTurn.PlayerHitPoints -= Math.Max(1, EnemyDamage - armor);
-                
-                
-                if (newTurn.PlayerHitPoints <= 0)
-                {
-                    // Check Endgame (Player defeated)
-                    newTurn.GameEnded = true;
-                    newTurn.PlayerVictory = false;
-                    game.Add(newTurn);
-                    possibleGames.Add(game);
-                    finalRounds.Add(newTurn);
-                    return;
-                }
-
-                // Keep recursing
-                GeneratePossibleGames(game, newTurn);
-            }
-            else
-            {
-                // Player Turn
-
-                List<Action> invalidActions = new();        // Get the current active effects 
-                if (newTurn.activeEffect_Poison > 0)
-                    invalidActions.Add(Action.Poison);
-                if (newTurn.activeEffect_Shield > 0)
-                    invalidActions.Add(Action.Shield);
-                if(newTurn.activeEffect_Recharge>0)
-                    invalidActions.Add(Action.Recharge);
-
-                List<Action> possibleActions = new();
-
-                foreach (var action in AllPlayerActions)
-                    if (!invalidActions.Contains(action))
-                        possibleActions.Add(action);
-
-                possibleActions = possibleActions.Where(x => Cost(x) < newTurn.PlayerCurrentManaPoints).ToList();
-
-                if (possibleActions.Count == 0)
-                {
-                    // Check Endgame (Cannot cast action)
-                    newTurn.GameEnded = true;
-                    newTurn.PlayerVictory = false;
-                    game.Add(newTurn);
-                    possibleGames.Add(game);
-                    finalRounds.Add(newTurn);
-                    return;
-                }
-
-                foreach (var action in possibleActions)
-                {
-                    var newPlayerTurn = newTurn.Clone();
-                    var newGame = new List<Turn>();
-
-                    foreach (var t in game)
-                        newGame.Add(t.Clone());
-
-                    newPlayerTurn.action = action;
-                    // Solve damage
-                    newPlayerTurn.EnemyHitPoints -= Damage(action);
-                    // Solve cost
-                    newPlayerTurn.PlayerCurrentManaPoints -= Cost(action);
-                    newPlayerTurn.PlayerSpentManaPoints += Cost(action);
-
-                    if (action == Action.Drain)
-                        newPlayerTurn.PlayerHitPoints += 2;
-
-                    // Add actions to the turn with starting timer
-                    var timer = Timer(action);
-                    if (timer > 0)
-                    {
-                        if (action == Action.Shield)
-                            newPlayerTurn.activeEffect_Shield = timer;
-                        if (action == Action.Poison)
-                            newPlayerTurn.activeEffect_Poison = timer;
-                        if (action == Action.Recharge)
-                            newPlayerTurn.activeEffect_Recharge = timer;
-
-                    }
-                    
-
-                    if (newPlayerTurn.PlayerCurrentManaPoints <= 0)
-                    {
-                        // Check Endgame - Enemy defeated
-                        newPlayerTurn.GameEnded = true;
-                        newPlayerTurn.PlayerVictory = false;
-                        newGame.Add(newPlayerTurn);
-                        possibleGames.Add(newGame);
-                        finalRounds.Add(newPlayerTurn);
-                        return;
-                    }
-
-                    if (newPlayerTurn.EnemyHitPoints <= 0)
-                    {
-                        // Check Endgame - Enemy defeated
-                        newPlayerTurn.GameEnded = true;
-                        newPlayerTurn.PlayerVictory = true;
-                        newGame.Add(newPlayerTurn);
-                        possibleGames.Add(newGame);
-                        finalRounds.Add(newPlayerTurn);
-                        if (newPlayerTurn.PlayerSpentManaPoints < MinManaSpent)
-                            MinManaSpent = newPlayerTurn.PlayerSpentManaPoints;
-                        return;
-                    }
-                    
-                    newGame.Add(newPlayerTurn);
-                    // Keep recursing
-                    GeneratePossibleGames(newGame, newPlayerTurn);
-                }
-            }
         }
 
         public void ParseInput(List<string> lines)
@@ -471,42 +299,32 @@ namespace AoC15.Day22
             EnemyDamage = int.Parse(lines[1].Replace("Damage: ", ""));
         }
 
-        int LessManaVictory()
+        int LessManaVictory(int part = 1)
         {
             possibleGames.Clear();
             finalRounds.Clear();
 
+            // The starting point will be an enemy turn where the player will have the health + damage as starting hitpoints
+            // That way we can generate the possibles games tree from a single node
             Turn startingTurn = new();
             List<Turn> startingList = new();
+
             startingTurn.PlayerTurn = true;
-            startingTurn.PlayerHitPoints = 50 + EnemyDamage;
+            startingTurn.PlayerHitPoints = 50 + EnemyDamage + (part == 2 ? 1 : 0);
             startingTurn.PlayerCurrentManaPoints = 500;
             startingTurn.EnemyHitPoints = EnemyHitPoints;
             startingTurn.EnemyDamage = EnemyDamage;
 
-            //GeneratePossibleGames(startingList, startingTurn);
             startingTurn.children = new()
             {
-                NextTurn(startingTurn, Action.EnemyAttack)
+                NextTurn(startingTurn, Action.EnemyAttack, part)
             };
 
-            var victories = finalRounds.Where(x => x.PlayerVictory == true).ToList();
-            var min = victories.Min(t => t.PlayerSpentManaPoints);
-            var game = finalRounds.Where(t => t.PlayerSpentManaPoints == min && (t.outcome == EndCondition.PlayerVictory || t.outcome == EndCondition.PlayerVictory_Poison)).FirstOrDefault();
-            var currentTurn = game;
-            while (currentTurn != null)
-            {
-                Trace.WriteLine(currentTurn.OneLiner());
-                currentTurn = currentTurn.parent;
-            }
-
-
-
-            return min;
+            return finalRounds.Where(x => x.PlayerVictory == true).Min(t => t.PlayerSpentManaPoints);
         }
 
 
         public int Solve(int part = 1)
-            => (part == 1) ? LessManaVictory() : 0;
+            => LessManaVictory(part);
     }
 }
