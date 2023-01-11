@@ -11,7 +11,7 @@ namespace AoC15
         {
             int day = 22;
             int part = 1;
-            bool test = true;
+            bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
             input += (test) ? "_test.txt" : ".txt";
@@ -239,7 +239,10 @@ namespace AoC15
         static int day22(string input, int part)
         {
             var lines = File.ReadAllLines(input).ToList();
-            return 0;
+            Day22.RPGWizard rpg = new();
+            rpg.ParseInput(lines);
+
+            return rpg.Solve(part);
         }
     }
 }
