@@ -11,7 +11,7 @@ namespace AoC15
         {
             int day = 24;
             int part = 1;
-            bool test = true;
+            bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
             input += (test) ? "_test.txt" : ".txt";
@@ -255,10 +255,12 @@ namespace AoC15
             return computer.Solve(part);
         }
 
-        static int day24(string input, int part)
+        static long day24(string input, int part)
         {
             var lines = File.ReadAllLines(input).ToList();
-            return 0;
+            Day24.QuantumSolver solver = new();
+            solver.ParseInput(lines);
+            return solver.Solve(part);
         }
     }
 }
