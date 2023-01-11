@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
-using static System.Net.Mime.MediaTypeNames;
+
+
+// Since I approached Day 21 problem creating all possible setups in lists, Day 22 problem will be implemented as a tree, where
+// each turn will have a collection of children turns that will be the possible actions that can go next. 
 namespace AoC15.Day22
 {
-
     enum Action
     { 
         MagicMissile =0, 
@@ -21,22 +21,10 @@ namespace AoC15.Day22
         EnemyAttack = 5
     }
 
-    enum EndCondition
-    {
-        PlayerVictory = 0,
-        EnemyVictory = 1,
-        CannotCastAction = 2,
-        RanOutOfMana = 3,
-        SpentManaGreaterThanMin = 4,
-        Unknown = 5,
-        PlayerVictory_Poison = 6,
-    }
-
     class Turn
     {
         public bool PlayerTurn;
         public Action action;
-        public EndCondition outcome = EndCondition.Unknown;
 
         public int PlayerHitPoints;
         public int PlayerCurrentManaPoints;
@@ -54,7 +42,6 @@ namespace AoC15.Day22
 
         public List<Turn>? children = null;
         public Turn? parent = null;
-        public int TurnCount = 0;
         
         public void AdvanceEffects()
         {
@@ -68,23 +55,16 @@ namespace AoC15.Day22
             Turn retVal = new();
             retVal.PlayerTurn = PlayerTurn;
             retVal.action= action;
-            retVal.outcome = outcome;
-            
             retVal.PlayerHitPoints = PlayerHitPoints;
             retVal.PlayerCurrentManaPoints = PlayerCurrentManaPoints;
             retVal.PlayerSpentManaPoints = PlayerSpentManaPoints;
-            
             retVal.EnemyHitPoints = EnemyHitPoints;
             retVal.EnemyDamage = EnemyDamage;
-            
             retVal.GameEnded = GameEnded;
             retVal.PlayerVictory = PlayerVictory;
-
             retVal.activeEffect_Shield = activeEffect_Shield;
             retVal.activeEffect_Poison = activeEffect_Poison;
             retVal.activeEffect_Recharge = activeEffect_Recharge;
-
-            retVal.TurnCount = TurnCount;
 
             return retVal;
         }
@@ -106,7 +86,6 @@ namespace AoC15.Day22
                                                       Action.Recharge, 
                                                       Action.Shield };
 
-        List<List<Turn>> possibleGames = new();
         List<Turn> finalRounds = new();
 
         static int Cost(Action action)
@@ -149,7 +128,6 @@ namespace AoC15.Day22
             currentTurn.PlayerTurn = !previousTurn.PlayerTurn;
             currentTurn.action = currentAction;
             currentTurn.parent = previousTurn;
-            currentTurn.TurnCount++;
 
             if (part == 2)
             {
@@ -159,7 +137,6 @@ namespace AoC15.Day22
                 {
                     currentTurn.GameEnded = true;
                     currentTurn.PlayerVictory = false;
-                    currentTurn.outcome = EndCondition.EnemyVictory;
                     finalRounds.Add(currentTurn);
                     return currentTurn;
                 }
@@ -168,22 +145,15 @@ namespace AoC15.Day22
             if (currentTurn.PlayerSpentManaPoints > MinManaSpent)
             {
                 currentTurn.PlayerVictory = false;
-                currentTurn.outcome = EndCondition.SpentManaGreaterThanMin;
                 currentTurn.GameEnded = true;
                 finalRounds.Add(currentTurn);
                 return currentTurn;
             }
 
-            bool shieldIsActive = false;
-
             // 1. Apply effects in place and advance timer
-            if (currentTurn.activeEffect_Shield > 0)
-                shieldIsActive = true;
-            if (currentTurn.activeEffect_Recharge > 0)
-                currentTurn.PlayerCurrentManaPoints += RechargeManaIncrease;
-            if (currentTurn.activeEffect_Poison > 0)
-                currentTurn.EnemyHitPoints -= PoisonTurnDamage;
-
+            bool shieldIsActive = (currentTurn.activeEffect_Shield > 0);
+            currentTurn.PlayerCurrentManaPoints += (currentTurn.activeEffect_Recharge > 0) ? RechargeManaIncrease : 0;
+            currentTurn.EnemyHitPoints -= (currentTurn.activeEffect_Poison > 0) ? PoisonTurnDamage : 0;
             currentTurn.AdvanceEffects();
 
             // Check game over condition 1 - Poison kill
@@ -191,7 +161,6 @@ namespace AoC15.Day22
             {
                 currentTurn.GameEnded = true;
                 currentTurn.PlayerVictory = true;
-                currentTurn.outcome = EndCondition.PlayerVictory_Poison;
                 finalRounds.Add(currentTurn);
 
                 if (currentTurn.PlayerSpentManaPoints < MinManaSpent)
@@ -229,11 +198,10 @@ namespace AoC15.Day22
             }
 
             // Game over conditions
-            if (currentTurn.PlayerHitPoints <= 0)
+            if ( currentTurn.PlayerHitPoints <= 0 || currentTurn.PlayerCurrentManaPoints < 0)
             {
                 currentTurn.GameEnded = true;
                 currentTurn.PlayerVictory = false;
-                currentTurn.outcome = EndCondition.EnemyVictory;
                 finalRounds.Add(currentTurn);
                 return currentTurn;
             }
@@ -241,23 +209,14 @@ namespace AoC15.Day22
             {
                 currentTurn.GameEnded = true;
                 currentTurn.PlayerVictory = true;
-                currentTurn.outcome = EndCondition.PlayerVictory;
+                
                 finalRounds.Add(currentTurn);
                 if (currentTurn.PlayerSpentManaPoints < MinManaSpent)
                     MinManaSpent = currentTurn.PlayerSpentManaPoints;
                 return currentTurn;
             }
-            if (currentTurn.PlayerCurrentManaPoints < 0)
-            {
-                currentTurn.GameEnded = true;
-                currentTurn.PlayerVictory = false;
-                currentTurn.outcome = EndCondition.RanOutOfMana;
-                finalRounds.Add(currentTurn);
-                return currentTurn;
-            }
 
             // Determine next actions
-
             List<Action> possibleActions = new();
 
             if (currentTurn.PlayerTurn)
@@ -280,7 +239,6 @@ namespace AoC15.Day22
                 // Next turn will be player's turn and no action can be casted
                 currentTurn.GameEnded = true;
                 currentTurn.PlayerVictory = false;
-                currentTurn.outcome = EndCondition.CannotCastAction;
                 finalRounds.Add(currentTurn);
                 return currentTurn;
             }
@@ -301,7 +259,6 @@ namespace AoC15.Day22
 
         int LessManaVictory(int part = 1)
         {
-            possibleGames.Clear();
             finalRounds.Clear();
 
             // The starting point will be an enemy turn where the player will have the health + damage as starting hitpoints
