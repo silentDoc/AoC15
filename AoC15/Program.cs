@@ -10,7 +10,7 @@ namespace AoC15
         static void Main()
         {
             int day = 24;
-            int part = 1;
+            int part = 2;
             bool test = false;
 
             string input = "./Input/day" + day.ToString() + "_1";
@@ -258,9 +258,17 @@ namespace AoC15
         static long day24(string input, int part)
         {
             var lines = File.ReadAllLines(input).ToList();
+            Stopwatch st = new Stopwatch();
+            
             Day24.QuantumSolver solver = new();
             solver.ParseInput(lines);
-            return solver.Solve(part);
+
+            st.Start();
+            var ret = solver.Solve(part);
+            st.Stop();
+            Console.WriteLine(st.Elapsed.TotalSeconds.ToString() + " s. ellapsed"); 
+
+            return ret;
         }
     }
 }
