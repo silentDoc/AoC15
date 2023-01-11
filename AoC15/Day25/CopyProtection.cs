@@ -47,7 +47,6 @@ namespace AoC15.Day25
 
                     if (i_row == row && i_col == col)
                         return currentCode;
-                        
                 }
             }
             return 0;
