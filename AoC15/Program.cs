@@ -9,9 +9,9 @@ namespace AoC15
     {
         static void Main()
         {
-            int day = 23;
-            int part = 2;
-            bool test = false;
+            int day = 24;
+            int part = 1;
+            bool test = true;
 
             string input = "./Input/day" + day.ToString() + "_1";
             input += (test) ? "_test.txt" : ".txt";
@@ -43,6 +43,7 @@ namespace AoC15
                 21 => day21(input, part).ToString(),
                 22 => day22(input, part).ToString(),
                 23 => day23(input, part).ToString(),
+                24 => day24(input, part).ToString(),
                 _ => throw new ArgumentException("Wrong day number - unimplemented"),
             };
             Console.WriteLine("Result : {0}", result);
@@ -252,6 +253,12 @@ namespace AoC15
             Day23.JaneMarieComputer computer = new();
             computer.ParseInput(lines);
             return computer.Solve(part);
+        }
+
+        static int day24(string input, int part)
+        {
+            var lines = File.ReadAllLines(input).ToList();
+            return 0;
         }
     }
 }
